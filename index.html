@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Saurabh Shriwastava — Portfolio</title>
+
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="script.js"></script>
+</head>
+<body>
+  <!-- Click ripple container -->
+  <div id="ripple-layer" aria-hidden="true"></div>
+
+  <!-- NAV -->
+  <header class="nav-wrap">
+    <nav class="nav container">
+      <div class="brand">
+        <span class="brand-mark"></span>
+        <span class="brand-name">Saurabh</span>
+      </div>
+
+      <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section id="home" class="hero">
+    <div class="container hero-inner">
+      <div class="hero-left">
+        <div class="profile-wrap">
+        </div>
+      </div>
+
+      <div class="hero-right">
+        <h1 class="hero-title">Hi, I’m <span class="name-highlight">Saurabh</span></h1>
+        <p class="hero-sub">Aspiring Software Engineer • CS Student • Problem solver</p>
+
+        <p class="hero-type">I build <span id="type-target" aria-live="polite"></span></p>
+
+        <div class="hero-cta">
+          <a class="btn primary" href="#projects">View Projects</a>
+          <a class="btn ghost" href="mailto:saurabhshriwastava323214@gmail.com">Say Hello</a>
+        </div>
+
+        <div class="social-compact">
+          <a href="https://github.com/Saurabh2005695" target="_blank" rel="noopener"><i class="fab fa-github"></i></a>
+          <a href="https://www.linkedin.com/in/saurabh-shriwastava-b97a26262/" target="_blank" rel="noopener"><i class="fab fa-linkedin"></i></a>
+          <a href="https://www.instagram.com/saurabhshriwastava?igsh=cXBnaG9hZzVrNjhz" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="about container">
+    <h2 class="section-title">About Me</h2>
+    <div class="about-grid">
+      <div class="about-text card">
+        <p class="lead-paragraph">
+          I’m <strong>Saurabh Shriwastava</strong>, a driven Computer Science student focused on building
+          practical, production-ready software. I enjoy converting ideas into clean code — whether
+          it's web apps with Flask, automation scripts in Python, or small AI assistants. I take pride
+          in writing readable, maintainable code while learning new tools every day. My approach is a
+          mix of curiosity, persistence, and teamwork: I love solving algorithmic challenges, contributing
+          to open-source, and collaborating to build products people actually use.
+        </p>
+
+        <ul class="about-highlights">
+          <li><strong>Years of study:</strong> B.Tech — 2nd year, CSE</li>
+          <li><strong>Core:</strong> Python, C / C++, Web (HTML/CSS/JS), Flask</li>
+          <li><strong>Tools:</strong> Git, SQLite, basic ML & automation</li>
+        </ul>
+      </div>
+
+      <div class="about-actions">
+        <div class="card contact-card">
+          <h3>Contact</h3>
+          <p><a href="mailto:saurabhshriwastava323214@gmail.com">saurabhshriwastava323214@gmail.com</a></p>
+          <div class="social-block">
+            <a href="https://github.com/Saurabh2005695" target="_blank" rel="noopener"><i class="fab fa-github"></i> GitHub</a>
+            <a href="https://www.linkedin.com/in/saurabh-shriwastava-b97a26262/" target="_blank" rel="noopener"><i class="fab fa-linkedin"></i> LinkedIn</a>
+            <a href="https://www.instagram.com/saurabhshriwastava?igsh=cXBnaG9hZzVrNjhz" target="_blank" rel="noopener"><i class="fab fa-instagram"></i> Instagram</a>
+          </div>
+        </div>
+
+        <div class="card stats-card">
+          <h3>Quick Snapshot</h3>
+          <div class="stats">
+            <div><span class="stat-num">3+</span><span class="stat-label">Projects</span></div>
+            <div><span class="stat-num">2</span><span class="stat-label">Languages</span></div>
+            <div><span class="stat-num">Open</span><span class="stat-label">to collaborate</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills" class="skills container">
+    <h2 class="section-title">Skills</h2>
+    <div class="skill-chips">
+      <button class="chip">Python</button>
+      <button class="chip">C / C++</button>
+      <button class="chip">HTML & CSS</button>
+      <button class="chip">JavaScript</button>
+      <button class="chip">Flask</button>
+      <button class="chip">SQLite</button>
+      <button class="chip">Git & GitHub</button>
+      <button class="chip">Basic ML / Automation</button>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" class="projects container">
+    <h2 class="section-title">Projects</h2>
+    <div class="projects-grid">
+      <article class="project-card card">
+        <h3>College Portal</h3>
+        <p>A full-stack college management portal built with Flask + SQLite for students & faculty management.</p>
+        <div class="card-actions">
+          <a href="#" class="link">Code</a>
+          <a href="#" class="link">Demo</a>
+        </div>
+      </article>
+
+      <article class="project-card card">
+        <h3>Jarvis — Personal Assistant</h3>
+        <p>A desktop voice assistant prototype using Python, speech recognition and automation scripts.</p>
+        <div class="card-actions">
+          <a href="#" class="link">Code</a>
+        </div>
+      </article>
+
+      <article class="project-card card">
+        <h3>Ticket → PDF Tool</h3>
+        <p>A utility to convert ticket pages/links into downloadable PDF (file-system friendly tool).</p>
+        <div class="card-actions">
+          <a href="#" class="link">Code</a>
+        </div>
+      </article>
+
+      <article class="project-card card">
+        <h3>Face Recognizer</h3>
+        <p>Prototype using OpenCV for face recognition — used in one of my projects for auth module.</p>
+        <div class="card-actions">
+          <a href="#" class="link">Code</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="contact container">
+    <h2 class="section-title">Get in touch</h2>
+    <p class="contact-sub">Interested in collaborating or have a question? Drop a message — I usually reply quickly.</p>
+
+    <div class="contact-grid card">
+      <div class="contact-left">
+        <h4>Email</h4>
+        <p><a href="mailto:saurabhshriwastava323214@gmail.com">saurabhshriwastava323214@gmail.com</a></p>
+        <h4>Social</h4>
+        <p class="social-inline">
+          <a href="https://github.com/Saurabh2005695" target="_blank">GitHub</a> •
+          <a href="https://www.linkedin.com/in/saurabh-shriwastava-b97a26262/" target="_blank">LinkedIn</a> •
+          <a href="https://www.instagram.com/saurabhshriwastava?igsh=cXBnaG9hZzVrNjhz" target="_blank">Instagram</a>
+        </p>
+      </div>
+
+      <form class="contact-form" action="mailto:saurabhshriwastava323214@gmail.com" method="get" enctype="text/plain">
+        <label>
+          <input type="text" name="name" placeholder="Your name" required>
+        </label>
+        <label>
+          <input type="email" name="email" placeholder="Your email" required>
+        </label>
+        <label>
+          <textarea name="message" rows="4" placeholder="Message" required></textarea>
+        </label>
+        <div class="form-actions">
+          <button type="submit" class="btn primary">Send</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© 2025 Saurabh Shriwastava — Built with passion</p>
+    </div>
+  </footer>
+</body>
+</html>
