@@ -16,14 +16,12 @@ It represents my journey as a Computer Science student and showcases my **skills
 ---
 
 ## 🚀 Live Demo
-🔗 [Click here to view portfolio](https://Saurabh2005695.github.io/portfolio/)  
-*(Link will work after enabling GitHub Pages in settings)*  
-
----
+http://127.0.0.1:5500/my_portfolio/index.html
 
 ## 📸 Preview
-*(Add a screenshot of your portfolio website here once deployed)*  
-
+"C:\Users\SAURABH KUMAR\OneDrive\Documents\Pictures\Screenshots\Screenshot 2025-09-15 112750.png"
+"C:\Users\SAURABH KUMAR\OneDrive\Documents\Pictures\Screenshots\Screenshot 2025-09-15 112824.png"
+"C:\Users\SAURABH KUMAR\OneDrive\Documents\Pictures\Screenshots\Screenshot 2025-09-15 112846.png"
 ---
 
 ## 🛠️ Technologies Used
