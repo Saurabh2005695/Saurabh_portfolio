@@ -16,7 +16,7 @@ It represents my journey as a Computer Science student and showcases my **skills
 ---
 
 ## 🚀 Live Demo
-http://127.0.0.1:5500/my_portfolio/index.html
+https://saurabh2005695.github.io/Saurabh_portfolio/
 
 ## 📸 Preview
 <img width="1826" height="912" alt="Screenshot 2025-09-15 112750" src="https://github.com/user-attachments/assets/1b2ac3d1-c995-4735-a4b1-1aa8bf227350" />
