@@ -70,7 +70,7 @@ const observer = new IntersectionObserver((entries) => {
   });
 },{threshold: 0.15});
 
-document.querySelectorAll('.card, .project-card').forEach(el => {
+document.querySelectorAll('.card, .project-card, .section-title').forEach(el => {
   observer.observe(el);
 });
 
@@ -81,3 +81,34 @@ revealStyle.innerHTML = `
 .card.reveal, .project-card.reveal {transform:none;opacity:1}
 `;
 document.head.appendChild(revealStyle);
+
+/* -------------------------
+  Mobile nav toggle
+------------------------- */
+const nav = document.querySelector('.nav');
+const navLinks = document.querySelector('.nav-links');
+const navToggle = document.querySelector('.nav-toggle');
+
+if (navToggle && navLinks && nav) {
+  const closeMenu = () => {
+    navToggle.setAttribute('aria-expanded', 'false');
+    navLinks.classList.remove('open');
+    nav.classList.remove('nav-open');
+  };
+
+  navToggle.addEventListener('click', () => {
+    const isOpen = navLinks.classList.toggle('open');
+    nav.classList.toggle('nav-open', isOpen);
+    navToggle.setAttribute('aria-expanded', String(isOpen));
+  });
+
+  navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', closeMenu);
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && navLinks.classList.contains('open')) {
+      closeMenu();
+    }
+  });
+}
