@@ -1,18 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Saurabh Shriwastava — Portfolio</title>
 
   <!-- Fonts & Icons -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Outfit:wght@400;600;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- 3D Libraries: Three.js & Vanilla-Tilt -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
 
   <link rel="stylesheet" href="style.css" />
   <script defer src="script.js"></script>
 </head>
+
 <body>
+  <!-- 3D Interactive Canvas -->
+  <canvas id="bg-canvas-3d"></canvas>
+
+  <!-- Welcome 3D Intro Screen -->
+  <div id="welcome-screen" class="welcome-screen">
+    <div class="welcome-bg-glow"></div>
+    <div class="welcome-content">
+      <div class="welcome-3d-visual">
+        <div class="ring-3d ring-outer"></div>
+        <div class="ring-3d ring-inner"></div>
+        <div class="welcome-sphere"></div>
+      </div>
+
+      <h1 class="welcome-title">
+        <span class="welcome-tag">WELCOME TO</span>
+        <span class="gradient-text">SAURABH'S UNIVERSE</span>
+      </h1>
+      <p class="welcome-subtitle">Data Science & Full-Stack Development Portfolio</p>
+
+      <div class="welcome-loader">
+        <div class="loader-bar-bg">
+          <div class="loader-bar-fill" id="welcome-loader-fill"></div>
+        </div>
+        <div class="loader-status">
+          <span id="welcome-status-text">INITIALIZING 3D ENVIRONMENT...</span>
+          <span id="welcome-counter">0%</span>
+        </div>
+      </div>
+
+      <button id="welcome-enter-btn" class="welcome-enter-btn" style="opacity: 0; pointer-events: none;">
+        <span>EXPLORE EXPERIENCE</span>
+        <i class="fas fa-arrow-right"></i>
+      </button>
+    </div>
+  </div>
+
   <!-- Click ripple container -->
   <div id="ripple-layer" aria-hidden="true"></div>
 
@@ -32,9 +74,16 @@
         <li><a href="#home">Home</a></li>
         <li><a href="#about">About</a></li>
         <li><a href="#skills">Skills</a></li>
+        <li><a href="#internships">Internships</a></li>
         <li><a href="#projects">Projects</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
+
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"
+        title="Switch between dark and light mode">
+        <i class="fas fa-moon"></i>
+        <span>Dark</span>
+      </button>
     </nav>
   </header>
 
@@ -42,28 +91,55 @@
   <section id="home" class="hero">
     <div class="container hero-inner">
       <div class="hero-left">
-        <div class="profile-wrap">
-          <img class="profile-photo" src="./assets/1000042575.jpg" alt="Saurabh Shriwastava" onerror="this.style.display='none'" />
-          <div class="photo-glow"></div>
+        <div class="hero-visual">
+          <div class="visual-ring ring-outer"></div>
+          <div class="visual-ring ring-inner"></div>
+          <div class="visual-crystal crystal-one"></div>
+          <div class="visual-crystal crystal-two"></div>
+          <div class="visual-sphere"></div>
+          <div class="profile-wrap">
+            <img class="profile-photo" src="./assets/1000042575.jpg" alt="Saurabh Shriwastava"
+              onerror="this.style.display='none'" />
+            <div class="photo-glow"></div>
+          </div>
         </div>
       </div>
 
-      <div class="hero-right">
+      <div class="hero-right hero-panel" data-tilt data-tilt-max="8" data-tilt-speed="400" data-tilt-glare="true" data-tilt-max-glare="0.15">
+        <div class="card-spotlight"></div>
         <h1 class="hero-title">Hi, I’m <span class="name-highlight">Saurabh</span></h1>
-        <p class="hero-sub">Computer Science undergraduate building responsive web applications and user-focused digital products.</p>
+        <p class="hero-badge">Software & Quantitative Analysis</p>
+        <p class="hero-sub">Computer Science undergraduate passionate about crafting seamless digital interfaces and extracting meaningful insights from complex systems.</p>
 
-        <p class="hero-type">I build <span id="type-target" aria-live="polite"></span></p>
+        <p class="hero-type">I’m exploring <span id="type-target" aria-live="polite"></span></p>
 
         <div class="hero-cta">
           <a class="btn primary" href="#projects">View Projects</a>
-          <a class="btn ghost" href="resume.pdf" download>Download Resume</a>
+          <a class="btn ghost" href="#internships">Explore Internships</a>
           <a class="btn ghost" href="mailto:saurabhshriwastava323214@gmail.com">Say Hello</a>
+        </div>
+
+        <div class="hero-metrics">
+          <div class="metric-card" data-tilt data-tilt-max="15">
+            <strong>Analytics</strong>
+            <span>& Insights</span>
+          </div>
+          <div class="metric-card" data-tilt data-tilt-max="15">
+            <strong>Digital</strong>
+            <span>Products</span>
+          </div>
+          <div class="metric-card" data-tilt data-tilt-max="15">
+            <strong>Machine</strong>
+            <span>Learning</span>
+          </div>
         </div>
 
         <div class="social-compact">
           <a href="https://github.com/Saurabh2005695" target="_blank" rel="noopener"><i class="fab fa-github"></i></a>
-          <a href="https://www.linkedin.com/in/saurabh-shriwastava-b97a26262/" target="_blank" rel="noopener"><i class="fab fa-linkedin"></i></a>
-          <a href="https://www.instagram.com/saurabhshriwastava?igsh=cXBnaG9hZzVrNjhz" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
+          <a href="https://www.linkedin.com/in/saurabh-shriwastava-b97a26262/" target="_blank" rel="noopener"><i
+              class="fab fa-linkedin"></i></a>
+          <a href="https://www.instagram.com/saurabhshriwastava?igsh=cXBnaG9hZzVrNjhz" target="_blank" rel="noopener"><i
+              class="fab fa-instagram"></i></a>
         </div>
       </div>
     </div>
@@ -73,42 +149,48 @@
   <section id="about" class="about container">
     <h2 class="section-title">About Me</h2>
     <div class="about-grid">
-      <div class="about-text card">
+      <div class="about-text card" data-tilt data-tilt-max="6" data-tilt-speed="400">
+        <div class="card-spotlight"></div>
         <p class="lead-paragraph">
-          I am a Computer Science undergraduate with a strong interest in web development and user-focused digital products. I enjoy building responsive and practical web applications that solve real-world problems. My focus is on creating clean user interfaces, writing maintainable code, and continuously improving my technical skills through hands-on projects.
+          I am a Computer Science undergraduate focused on bridging the gap between intelligent quantitative insights and modern digital experiences. My work centers on architecting clean, intuitive user interfaces while leveraging analytical reasoning to solve complex real-world problems.
         </p>
         <p class="lead-paragraph">
-          Over time, I have developed experience working with modern front-end technologies and building complete web applications from concept to deployment. I particularly enjoy designing interactive user experiences and implementing features that make applications intuitive and efficient to use.
+          Rather than viewing software and data analysis in isolation, I thrive at the intersection of computational logic and digital craftsmanship. Whether it’s uncovering actionable patterns within complex datasets, optimizing logic, or designing user-centric web applications, I prioritize clarity, performance, and engineering discipline.
         </p>
         <p class="lead-paragraph">
-          I believe in learning by building. Each project I create helps me improve my understanding of software development, problem solving, and real-world application design. I am currently looking to further expand my knowledge in full-stack development and contribute to meaningful projects that combine functionality with thoughtful design.
+          Driven by curiosity and a commitment to continuous learning, I am constantly exploring modern development frameworks, statistical techniques, and scalable solution architecture to build software products that deliver genuine value.
         </p>
 
         <ul class="about-highlights">
-          <li><strong>Frontend Development:</strong> HTML5, CSS3, JavaScript (ES6+), Responsive Web Design, Flexbox, CSS Grid, basic React.js</li>
-          <li><strong>Backend & Programming:</strong> Node.js, Express.js, REST API fundamentals, basic database concepts</li>
-          <li><strong>Tools & Technologies:</strong> Git, GitHub, VS Code, Netlify / GitHub Pages, basic UI design with Figma</li>
-          <li><strong>Additional Skills:</strong> Problem solving, debugging, code optimization, understanding web performance basics</li>
+          <li><strong>Digital Experience Architecture:</strong> Designing responsive, accessible user interfaces and modern web applications with focus on usability</li>
+          <li><strong>Analytical & Data Reasoning:</strong> Deriving actionable patterns, statistical insights, and quantitative solutions from structured inputs</li>
+          <li><strong>Workflow & Ecosystem:</strong> Version control with Git, collaborative workflows on GitHub, VS Code environment, and Python analytics tooling</li>
+          <li><strong>Core Engineering Mindset:</strong> Algorithmic problem-solving, code performance optimization, and rigorous debugging</li>
         </ul>
       </div>
 
       <div class="about-actions">
-        <div class="card contact-card">
+        <div class="card contact-card" data-tilt data-tilt-max="12" data-tilt-glare="true" data-tilt-max-glare="0.2">
+          <div class="card-spotlight"></div>
           <h3>Contact</h3>
           <p><a href="mailto:saurabhshriwastava323214@gmail.com">saurabhshriwastava323214@gmail.com</a></p>
           <div class="social-block">
-            <a href="https://github.com/Saurabh2005695" target="_blank" rel="noopener"><i class="fab fa-github"></i> GitHub</a>
-            <a href="https://www.linkedin.com/in/saurabh-shriwastava-b97a26262/" target="_blank" rel="noopener"><i class="fab fa-linkedin"></i> LinkedIn</a>
-            <a href="https://www.instagram.com/saurabhshriwastava?igsh=cXBnaG9hZzVrNjhz" target="_blank" rel="noopener"><i class="fab fa-instagram"></i> Instagram</a>
+            <a href="https://github.com/Saurabh2005695" target="_blank" rel="noopener"><i class="fab fa-github"></i>
+              GitHub</a>
+            <a href="https://www.linkedin.com/in/saurabh-shriwastava-b97a26262/" target="_blank" rel="noopener"><i
+                class="fab fa-linkedin"></i> LinkedIn</a>
+            <a href="https://www.instagram.com/saurabhshriwastava?igsh=cXBnaG9hZzVrNjhz" target="_blank"
+              rel="noopener"><i class="fab fa-instagram"></i> Instagram</a>
           </div>
         </div>
 
-        <div class="card stats-card">
+        <div class="card stats-card" data-tilt data-tilt-max="12" data-tilt-glare="true" data-tilt-max-glare="0.2">
+          <div class="card-spotlight"></div>
           <h3>Quick Snapshot</h3>
           <div class="stats">
             <div><span class="stat-num">3+</span><span class="stat-label">Projects</span></div>
-            <div><span class="stat-num">2</span><span class="stat-label">Languages</span></div>
-            <div><span class="stat-num">Open</span><span class="stat-label">to collaborate</span></div>
+            <div><span class="stat-num">2+</span><span class="stat-label">Internships</span></div>
+            <div><span class="stat-num">DS</span><span class="stat-label">Interest area</span></div>
           </div>
         </div>
       </div>
@@ -119,7 +201,8 @@
   <section id="skills" class="skills container">
     <h2 class="section-title">Skills</h2>
     <div class="skills-grid">
-      <div class="skill-card card">
+      <div class="skill-card card" data-tilt data-tilt-max="14" data-tilt-glare="true" data-tilt-max-glare="0.2">
+        <div class="card-spotlight"></div>
         <h3>Frontend</h3>
         <ul class="skill-list">
           <li>HTML5 & CSS3</li>
@@ -129,7 +212,8 @@
         </ul>
       </div>
 
-      <div class="skill-card card">
+      <div class="skill-card card" data-tilt data-tilt-max="14" data-tilt-glare="true" data-tilt-max-glare="0.2">
+        <div class="card-spotlight"></div>
         <h3>Backend</h3>
         <ul class="skill-list">
           <li>Node.js & Express.js</li>
@@ -138,7 +222,8 @@
         </ul>
       </div>
 
-      <div class="skill-card card">
+      <div class="skill-card card" data-tilt data-tilt-max="14" data-tilt-glare="true" data-tilt-max-glare="0.2">
+        <div class="card-spotlight"></div>
         <h3>Tools</h3>
         <ul class="skill-list">
           <li>Git & GitHub</li>
@@ -150,14 +235,46 @@
     </div>
   </section>
 
+  <!-- INTERNSHIPS -->
+  <section id="internships" class="internships container">
+    <h2 class="section-title">Internships & Experience</h2>
+    <div class="internships-grid">
+      <article class="internship-card card" data-tilt data-tilt-max="12" data-tilt-glare="true" data-tilt-max-glare="0.2">
+        <div class="card-spotlight"></div>
+        <span class="pill">Internship</span>
+        <h3>Data-Focused Learning Experience</h3>
+        <p>Gained exposure to data analysis, structured problem solving, and practical project workflows while
+          strengthening my analytical mindset.</p>
+        <ul class="internship-points">
+          <li>Worked with data-driven tasks and learning-based projects</li>
+          <li>Improved Python and analytical thinking</li>
+        </ul>
+      </article>
+
+      <article class="internship-card card" data-tilt data-tilt-max="12" data-tilt-glare="true" data-tilt-max-glare="0.2">
+        <div class="card-spotlight"></div>
+        <span class="pill">Internship</span>
+        <h3>Web Development & Product Exposure</h3>
+        <p>Built a stronger understanding of real-world digital products, collaboration, and how technology is applied
+          to solve user problems.</p>
+        <ul class="internship-points">
+          <li>Focused on practical implementation and user experience</li>
+          <li>Strengthened communication and development discipline</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
   <!-- PROJECTS -->
   <section id="projects" class="projects container">
     <h2 class="section-title">Projects</h2>
     <div class="projects-grid">
-      <article class="project-card card">
+      <article class="project-card card" data-tilt data-tilt-max="14" data-tilt-glare="true" data-tilt-max-glare="0.25">
+        <div class="card-spotlight"></div>
         <div class="project-header">
           <h3>Sarvodaya Drug Store Website</h3>
-          <p>A responsive website developed for a local pharmacy to improve its digital presence and provide customers easy access to store information.</p>
+          <p>A responsive website developed for a local pharmacy to improve its digital presence and provide customers
+            easy access to store information.</p>
         </div>
         <ul class="project-tech">
           <li>HTML</li>
@@ -165,15 +282,17 @@
           <li>JavaScript</li>
         </ul>
         <div class="card-actions project-links">
-          <a href="https://sarvodaya-drug-store.netlify.app/" class="link">Live demo</a>
+          <a href="https://sarvodaya-drug-store.netlify.app/" target="_blank" class="link">Live demo</a>
           <a href="#" class="link">View code</a>
         </div>
       </article>
 
-      <article class="project-card card">
+      <article class="project-card card" data-tilt data-tilt-max="14" data-tilt-glare="true" data-tilt-max-glare="0.25">
+        <div class="card-spotlight"></div>
         <div class="project-header">
           <h3>Interactive Language Learning</h3>
-          <p>A web platform to help beginners learn a new language through interactive modules, quizzes, and flashcards.</p>
+          <p>A web platform to help beginners learn a new language through interactive modules, quizzes, and flashcards.
+          </p>
         </div>
         <ul class="project-tech">
           <li>HTML</li>
@@ -181,15 +300,17 @@
           <li>JavaScript</li>
         </ul>
         <div class="card-actions project-links">
-          <a href="https://cute-elf-a3fbeb.netlify.app/" class="link">Live demo</a>
-          <a href="https://github.com/Saurabh2005695/Salut-A-French-learning-website.git" class="link">View code</a>
+          <a href="https://cute-elf-a3fbeb.netlify.app/" target="_blank" class="link">Live demo</a>
+          <a href="https://github.com/Saurabh2005695/Salut-A-French-learning-website.git" target="_blank" class="link">View code</a>
         </div>
       </article>
 
-      <article class="project-card card">
+      <article class="project-card card" data-tilt data-tilt-max="14" data-tilt-glare="true" data-tilt-max-glare="0.25">
+        <div class="card-spotlight"></div>
         <div class="project-header">
           <h3>Personal Portfolio Website</h3>
-          <p>A portfolio website built to showcase projects, skills, and development experience with a clean, responsive layout.</p>
+          <p>A portfolio website built to showcase projects, skills, and development experience with a clean, responsive
+            layout.</p>
         </div>
         <ul class="project-tech">
           <li>HTML</li>
@@ -197,15 +318,17 @@
           <li>JavaScript</li>
         </ul>
         <div class="card-actions project-links">
-          <a href="https://saurabh2005695.github.io/Saurabh_portfolio/" class="link">Live demo</a>
-          <a href="https://github.com/Saurabh2005695/Saurabh_portfolio.git" class="link">View code</a>
+          <a href="https://saurabh2005695.github.io/Saurabh_portfolio/" target="_blank" class="link">Live demo</a>
+          <a href="https://github.com/Saurabh2005695/Saurabh_portfolio.git" target="_blank" class="link">View code</a>
         </div>
       </article>
 
-      <article class="project-card card">
+      <article class="project-card card" data-tilt data-tilt-max="14" data-tilt-glare="true" data-tilt-max-glare="0.25">
+        <div class="card-spotlight"></div>
         <div class="project-header">
           <h3>GitHub Profile Finder</h3>
-          <p>A web app that searches public GitHub profiles using the GitHub API and displays repos, followers, and bio details.</p>
+          <p>A web app that searches public GitHub profiles using the GitHub API and displays repos, followers, and bio
+            details.</p>
         </div>
         <ul class="project-tech">
           <li>HTML</li>
@@ -224,9 +347,11 @@
   <!-- CONTACT -->
   <section id="contact" class="contact container">
     <h2 class="section-title">Get in Touch</h2>
-    <p class="contact-sub">If you'd like to discuss a project, collaboration, or opportunity, feel free to reach out.</p>
+    <p class="contact-sub">If you'd like to discuss a project, collaboration, or opportunity, feel free to reach out.
+    </p>
 
-    <div class="contact-grid card">
+    <div class="contact-grid card" data-tilt data-tilt-max="8" data-tilt-speed="400">
+      <div class="card-spotlight"></div>
       <div class="contact-left">
         <h4>Email</h4>
         <p><a href="mailto:saurabhshriwastava323214@gmail.com">saurabhshriwastava323214@gmail.com</a></p>
@@ -261,4 +386,5 @@
     </div>
   </footer>
 </body>
+
 </html>
