@@ -58,11 +58,12 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /* ==========================================
-   2. THREE.JS 3D CYBER TUNNEL & GRID MATRIX ENGINE
+   2. THREE.JS 3D SKY & STARRY CELESTIAL ENGINE
    ========================================== */
-let scene, camera, renderer, particleSystem, torusKnot, gridFloor, gridCeiling, floatingPolyGroup;
+let scene, camera, renderer, starSystem, moonMesh, moonAura, cloudGroup, meteorGroup;
 let mouseX = 0, mouseY = 0;
 let targetMouseX = 0, targetMouseY = 0;
+const meteors = [];
 
 function init3DEngine() {
   const canvas = document.getElementById('bg-canvas-3d');
@@ -71,110 +72,152 @@ function init3DEngine() {
   scene = new THREE.Scene();
 
   camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-  camera.position.z = 30;
+  camera.position.z = 40;
 
   renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-  // 1. PARTICLE GALAXY MATRIX
-  const particleCount = 1400;
-  const geometry = new THREE.BufferGeometry();
-  const positions = new Float32Array(particleCount * 3);
-  const colors = new Float32Array(particleCount * 3);
+  // 1. TWINKLING STARFIELD (2,500 STARS)
+  const starCount = 2500;
+  const starGeo = new THREE.BufferGeometry();
+  const starPositions = new Float32Array(starCount * 3);
+  const starColors = new Float32Array(starCount * 3);
 
-  const colorPalette = [
-    new THREE.Color('#8b5cf6'),
-    new THREE.Color('#06b6d4'),
-    new THREE.Color('#f97316'),
-    new THREE.Color('#ffffff')
+  const starPalettes = [
+    new THREE.Color('#ffffff'),
+    new THREE.Color('#e0f2fe'),
+    new THREE.Color('#bae6fd'),
+    new THREE.Color('#ddd6fe'),
+    new THREE.Color('#fef08a'),
+    new THREE.Color('#38bdf8')
   ];
 
-  for (let i = 0; i < particleCount * 3; i += 3) {
-    positions[i] = (Math.random() - 0.5) * 100;
-    positions[i + 1] = (Math.random() - 0.5) * 100;
-    positions[i + 2] = (Math.random() - 0.5) * 100;
+  for (let i = 0; i < starCount; i++) {
+    const i3 = i * 3;
+    starPositions[i3] = (Math.random() - 0.5) * 170;
+    starPositions[i3 + 1] = (Math.random() - 0.5) * 150;
+    starPositions[i3 + 2] = (Math.random() - 0.5) * 120 - 10;
 
-    const randomColor = colorPalette[Math.floor(Math.random() * colorPalette.length)];
-    colors[i] = randomColor.r;
-    colors[i + 1] = randomColor.g;
-    colors[i + 2] = randomColor.b;
+    const col = starPalettes[Math.floor(Math.random() * starPalettes.length)];
+    starColors[i3] = col.r;
+    starColors[i3 + 1] = col.g;
+    starColors[i3 + 2] = col.b;
   }
 
-  geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-  geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+  starGeo.setAttribute('position', new THREE.BufferAttribute(starPositions, 3));
+  starGeo.setAttribute('color', new THREE.BufferAttribute(starColors, 3));
 
-  const particleMaterial = new THREE.PointsMaterial({
-    size: 0.36,
+  const starMat = new THREE.PointsMaterial({
+    size: 0.45,
     vertexColors: true,
     transparent: true,
-    opacity: 0.85,
+    opacity: 0.9,
     blending: THREE.AdditiveBlending
   });
 
-  particleSystem = new THREE.Points(geometry, particleMaterial);
-  scene.add(particleSystem);
+  starSystem = new THREE.Points(starGeo, starMat);
+  scene.add(starSystem);
 
-  // 2. 3D CYBER GRID FLOOR & CEILING
-  gridFloor = new THREE.GridHelper(120, 40, 0x8b5cf6, 0x06b6d4);
-  gridFloor.position.y = -25;
-  gridFloor.material.opacity = 0.25;
-  gridFloor.material.transparent = true;
-  scene.add(gridFloor);
-
-  gridCeiling = new THREE.GridHelper(120, 40, 0x06b6d4, 0x8b5cf6);
-  gridCeiling.position.y = 25;
-  gridCeiling.material.opacity = 0.2;
-  gridCeiling.material.transparent = true;
-  scene.add(gridCeiling);
-
-  // 3. FLOATING 3D POLYHEDRONS GROUP
-  floatingPolyGroup = new THREE.Group();
-
-  // Torus Knot
-  const knotGeo = new THREE.TorusKnotGeometry(4.5, 0.9, 100, 16);
-  const knotMat = new THREE.MeshBasicMaterial({
-    color: 0x8b5cf6,
-    wireframe: true,
+  // 2. 3D CELESTIAL MOON & SOFT ATMOSPHERIC AURA
+  const moonGeo = new THREE.SphereGeometry(4.8, 32, 32);
+  const moonMat = new THREE.MeshBasicMaterial({
+    color: 0xf8fafc,
     transparent: true,
-    opacity: 0.28
+    opacity: 0.88
   });
-  torusKnot = new THREE.Mesh(knotGeo, knotMat);
-  torusKnot.position.set(18, 5, -10);
-  floatingPolyGroup.add(torusKnot);
+  moonMesh = new THREE.Mesh(moonGeo, moonMat);
+  moonMesh.position.set(22, 16, -20);
+  scene.add(moonMesh);
 
-  // Icosahedron & Dodecahedron
-  const icoGeo = new THREE.IcosahedronGeometry(2.5);
-  const icoMat = new THREE.MeshBasicMaterial({
-    color: 0x06b6d4,
-    wireframe: true,
+  // Soft Moon Glow Ring
+  const auraGeo = new THREE.RingGeometry(5.0, 9.2, 32);
+  const auraMat = new THREE.MeshBasicMaterial({
+    color: 0x38bdf8,
+    side: THREE.DoubleSide,
     transparent: true,
-    opacity: 0.35
+    opacity: 0.22,
+    blending: THREE.AdditiveBlending
   });
-  const icoMesh = new THREE.Mesh(icoGeo, icoMat);
-  icoMesh.position.set(-18, -8, -5);
-  floatingPolyGroup.add(icoMesh);
+  moonAura = new THREE.Mesh(auraGeo, auraMat);
+  moonAura.position.set(22, 16, -20.1);
+  scene.add(moonAura);
 
-  const dodGeo = new THREE.DodecahedronGeometry(2);
-  const dodMat = new THREE.MeshBasicMaterial({
-    color: 0xf97316,
-    wireframe: true,
-    transparent: true,
-    opacity: 0.3
-  });
-  const dodMesh = new THREE.Mesh(dodGeo, dodMat);
-  dodMesh.position.set(-20, 14, -15);
-  floatingPolyGroup.add(dodMesh);
+  // 3. FLOATING VOLUMETRIC SKY CLOUDS
+  cloudGroup = new THREE.Group();
+  const cloudCount = 8;
+  for (let c = 0; c < cloudCount; c++) {
+    const cloudGeo = new THREE.DodecahedronGeometry(Math.random() * 5 + 4, 1);
+    const cloudMat = new THREE.MeshBasicMaterial({
+      color: 0x1e293b,
+      wireframe: true,
+      transparent: true,
+      opacity: 0.15 + Math.random() * 0.12
+    });
+    const cloud = new THREE.Mesh(cloudGeo, cloudMat);
+    cloud.position.set(
+      (Math.random() - 0.5) * 130,
+      (Math.random() - 0.5) * 55 - 5,
+      (Math.random() - 0.5) * 45 - 20
+    );
+    cloudGroup.add(cloud);
+  }
+  scene.add(cloudGroup);
 
-  scene.add(floatingPolyGroup);
+  // 4. SHOOTING STARS (METEORS) GROUP
+  meteorGroup = new THREE.Group();
+  scene.add(meteorGroup);
 
-  const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+  function createMeteor() {
+    const geometry = new THREE.BufferGeometry();
+    const positions = new Float32Array([0, 0, 0, -7, 4.5, -2]);
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+    const material = new THREE.LineBasicMaterial({
+      color: 0x38bdf8,
+      transparent: true,
+      opacity: 1,
+      linewidth: 2
+    });
+
+    const line = new THREE.Line(geometry, material);
+    line.position.set(
+      (Math.random() - 0.5) * 100 + 20,
+      Math.random() * 45 + 10,
+      (Math.random() - 0.5) * 40
+    );
+
+    line.userData = {
+      speedX: -(Math.random() * 1.8 + 1.2),
+      speedY: -(Math.random() * 1.2 + 0.8),
+      life: 1.0
+    };
+
+    meteorGroup.add(line);
+    meteors.push(line);
+  }
+
+  // Periodically spawn meteors
+  setInterval(() => {
+    if (meteors.length < 4 && Math.random() > 0.25) {
+      createMeteor();
+    }
+  }, 2000);
+
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
   scene.add(ambientLight);
 
   document.addEventListener('mousemove', (e) => {
-    targetMouseX = (e.clientX - window.innerWidth / 2) * 0.0012;
-    targetMouseY = (e.clientY - window.innerHeight / 2) * 0.0012;
+    targetMouseX = (e.clientX - window.innerWidth / 2) * 0.0008;
+    targetMouseY = (e.clientY - window.innerHeight / 2) * 0.0008;
   });
+
+  document.addEventListener('touchmove', (e) => {
+    if (e.touches && e.touches.length > 0) {
+      targetMouseX = (e.touches[0].clientX - window.innerWidth / 2) * 0.0008;
+      targetMouseY = (e.touches[0].clientY - window.innerHeight / 2) * 0.0008;
+    }
+  }, { passive: true });
 
   window.addEventListener('resize', onWindowResize);
   animate3D();
@@ -183,34 +226,55 @@ function init3DEngine() {
 function animate3D() {
   requestAnimationFrame(animate3D);
 
+  const time = Date.now() * 0.002;
   mouseX += (targetMouseX - mouseX) * 0.05;
   mouseY += (targetMouseY - mouseY) * 0.05;
 
   const scrollY = window.scrollY || 0;
 
-  if (particleSystem) {
-    particleSystem.rotation.y += 0.0008;
-    particleSystem.rotation.x += 0.0004;
-    particleSystem.rotation.y += mouseX * 0.5;
-    particleSystem.rotation.x += mouseY * 0.5;
+  // Starfield Rotation & Twinkle
+  if (starSystem) {
+    starSystem.rotation.y += 0.0003;
+    starSystem.rotation.x = mouseY * 0.4;
+    starSystem.rotation.y += mouseX * 0.4;
   }
 
-  if (gridFloor) gridFloor.position.z = (scrollY * 0.05) % 30 - 15;
-  if (gridCeiling) gridCeiling.position.z = (scrollY * 0.05) % 30 - 15;
-
-  if (torusKnot) {
-    torusKnot.rotation.x += 0.006;
-    torusKnot.rotation.y += 0.008;
-    torusKnot.position.y = 5 + Math.sin(Date.now() * 0.0015) * 1.5;
+  // Floating Moon Movement
+  if (moonMesh) {
+    moonMesh.position.y = 16 + Math.sin(time * 0.5) * 1.2;
+    moonMesh.position.x = 22 + Math.cos(time * 0.3) * 0.8;
+  }
+  if (moonAura) {
+    moonAura.position.y = 16 + Math.sin(time * 0.5) * 1.2;
+    moonAura.position.x = 22 + Math.cos(time * 0.3) * 0.8;
   }
 
-  if (floatingPolyGroup) {
-    floatingPolyGroup.rotation.y = scrollY * 0.0006;
-    floatingPolyGroup.position.y = -scrollY * 0.008;
+  // Floating Sky Clouds Drifting
+  if (cloudGroup) {
+    cloudGroup.children.forEach((cloud, index) => {
+      cloud.position.x += 0.015 * (index % 2 === 0 ? 1 : 0.7);
+      if (cloud.position.x > 75) cloud.position.x = -75;
+      cloud.rotation.z += 0.001;
+    });
+    cloudGroup.position.y = -scrollY * 0.006;
   }
 
-  camera.position.x += (mouseX * 12 - camera.position.x) * 0.05;
-  camera.position.y += (-mouseY * 12 - camera.position.y) * 0.05;
+  // Animate Meteors
+  for (let i = meteors.length - 1; i >= 0; i--) {
+    const meteor = meteors[i];
+    meteor.position.x += meteor.userData.speedX;
+    meteor.position.y += meteor.userData.speedY;
+    meteor.userData.life -= 0.025;
+    meteor.material.opacity = Math.max(0, meteor.userData.life);
+
+    if (meteor.userData.life <= 0) {
+      meteorGroup.remove(meteor);
+      meteors.splice(i, 1);
+    }
+  }
+
+  camera.position.x += (mouseX * 10 - camera.position.x) * 0.05;
+  camera.position.y += (-mouseY * 10 - camera.position.y) * 0.05;
   camera.lookAt(scene.position);
 
   renderer.render(scene, camera);

@@ -1096,16 +1096,364 @@ section {
   font-weight: 600;
 }
 
-@media (max-width: 900px) {
-  .about-grid,
-  .contact-grid {
-    grid-template-columns: 1fr;
+/* ==========================================
+   FLUID RESPONSIVE MEDIA QUERIES
+   (Mobile Phone, Tablet / Tab, Laptop, Desktop)
+   ========================================== */
+
+/* 1. Laptop & Mid-size Displays (992px to 1200px) */
+@media (max-width: 1200px) {
+  .container {
+    max-width: 980px;
   }
+
+  .hero-inner {
+    gap: 32px;
+  }
+
+  .hero-panel {
+    padding: 30px 24px;
+  }
+
+  .hero-title {
+    font-size: 2.3rem;
+  }
+}
+
+/* 2. Tablets & Tabs (768px to 991px) */
+@media (max-width: 991px) {
+  .container {
+    width: 92%;
+  }
+
+  .hero {
+    padding: 60px 0 45px;
+    min-height: auto;
+  }
+
   .hero-inner {
     flex-direction: column;
     text-align: center;
+    gap: 36px;
   }
-  .hero-left { order: 2; }
-  .hero-right { order: 1; }
-  .hero-cta, .hero-metrics { justify-content: center; }
+
+  .hero-left {
+    order: 1;
+    flex: 0 0 auto;
+  }
+
+  .hero-right {
+    order: 2;
+    width: 100%;
+  }
+
+  .hero-title {
+    font-size: 2.2rem;
+  }
+
+  .hero-cta,
+  .hero-metrics {
+    justify-content: center;
+  }
+
+  .about-grid,
+  .contact-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .about-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .skills-grid,
+  .projects-grid,
+  .internships-grid {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 18px;
+  }
+
+  /* Navigation Drawer for Tablet/Mobile */
+  .nav-toggle {
+    display: flex;
+  }
+
+  .nav-links {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 280px;
+    height: 100vh;
+    padding: 85px 24px 30px;
+    flex-direction: column;
+    gap: 16px;
+    background: rgba(5, 7, 22, 0.95);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-left: 1px solid var(--border);
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+    z-index: 99;
+  }
+
+  body[data-theme="light"] .nav-links {
+    background: rgba(241, 245, 249, 0.96);
+  }
+
+  .nav-links.open {
+    transform: translateX(0);
+  }
+
+  .nav-links a {
+    font-size: 1.05rem;
+    padding: 12px 18px;
+    border-radius: 12px;
+    width: 100%;
+    display: block;
+  }
+}
+
+/* 3. Small Tablets & Landscape Mobile (481px to 767px) */
+@media (max-width: 767px) {
+  section {
+    padding: 45px 0;
+  }
+
+  .section-title {
+    font-size: 1.6rem;
+    margin: 15px 0 20px;
+  }
+
+  .hero-visual {
+    width: 220px;
+    height: 220px;
+  }
+
+  .visual-ring.ring-outer {
+    width: 210px;
+    height: 210px;
+  }
+
+  .visual-ring.ring-inner {
+    width: 170px;
+    height: 170px;
+  }
+
+  .profile-wrap {
+    width: 160px;
+    height: 160px;
+    border-radius: 24px;
+  }
+
+  .hero-panel {
+    padding: 24px 18px;
+    border-radius: 22px;
+  }
+
+  .hero-title {
+    font-size: 1.95rem;
+  }
+
+  .hero-sub {
+    font-size: 0.95rem;
+  }
+
+  .about-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-grid {
+    padding: 20px 16px;
+  }
+
+  .metric-card {
+    min-width: 100px;
+    padding: 10px 12px;
+  }
+
+  .metric-card strong {
+    font-size: 1rem;
+  }
+}
+
+/* 4. Extra Small Mobile Phones (Up to 480px) */
+@media (max-width: 480px) {
+  .container {
+    width: 95%;
+    padding: 0 4px;
+  }
+
+  /* Welcome Screen Mobile Fixes */
+  .welcome-content {
+    padding: 24px 16px;
+  }
+
+  .welcome-title {
+    font-size: 1.75rem;
+  }
+
+  .welcome-subtitle {
+    font-size: 0.88rem;
+    margin-bottom: 20px;
+  }
+
+  .welcome-3d-visual {
+    width: 90px;
+    height: 90px;
+    margin-bottom: 16px;
+  }
+
+  .ring-outer {
+    width: 85px;
+    height: 85px;
+  }
+
+  .ring-inner {
+    width: 60px;
+    height: 60px;
+  }
+
+  .welcome-sphere {
+    width: 32px;
+    height: 32px;
+  }
+
+  .welcome-enter-btn {
+    padding: 12px 24px;
+    font-size: 0.88rem;
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Hero Mobile Fixes */
+  .hero {
+    padding: 35px 0 25px;
+  }
+
+  .hero-visual {
+    width: 180px;
+    height: 180px;
+  }
+
+  .visual-ring.ring-outer {
+    width: 175px;
+    height: 175px;
+  }
+
+  .visual-ring.ring-inner {
+    width: 140px;
+    height: 140px;
+  }
+
+  .profile-wrap {
+    width: 135px;
+    height: 135px;
+    border-radius: 20px;
+  }
+
+  .crystal-one, .crystal-two {
+    width: 32px;
+    height: 32px;
+  }
+
+  .hero-panel {
+    padding: 18px 14px;
+    border-radius: 18px;
+  }
+
+  .hero-title {
+    font-size: 1.7rem;
+    line-height: 1.25;
+  }
+
+  .hero-badge {
+    font-size: 0.72rem;
+    padding: 4px 10px;
+  }
+
+  .hero-sub {
+    font-size: 0.88rem;
+    line-height: 1.5;
+  }
+
+  .hero-type {
+    font-size: 0.9rem;
+    margin-bottom: 16px;
+  }
+
+  .hero-cta {
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+  }
+
+  .btn {
+    width: 100%;
+    justify-content: center;
+    padding: 12px 16px;
+    font-size: 0.9rem;
+  }
+
+  .hero-metrics {
+    flex-direction: column;
+    width: 100%;
+    gap: 8px;
+  }
+
+  .metric-card {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 14px;
+  }
+
+  /* Cards & Sections Mobile */
+  .card {
+    padding: 18px 14px;
+    border-radius: 16px;
+  }
+
+  .skills-grid,
+  .projects-grid,
+  .internships-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .project-links {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .project-card .link {
+    width: 100%;
+    text-align: center;
+  }
+
+  .stats {
+    gap: 6px;
+  }
+
+  .stat-num {
+    font-size: 1.3rem;
+  }
+
+  .stat-label {
+    font-size: 0.7rem;
+  }
+
+  .contact-form input,
+  .contact-form textarea {
+    padding: 11px 14px;
+    font-size: 0.9rem;
+  }
+
+  /* Full Screen Mobile Menu */
+  .nav-links {
+    width: 100vw;
+  }
 }
