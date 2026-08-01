@@ -1,6 +1,7 @@
 #  Saurabh Shriwastava — Interactive 3D Developer Portfolio
 
-[![Live Demo](https://img.shields.io/badge/Live_Demo-saurabh2005695.github.io-blueviolet?style=for-the-badge&logo=github)](https://saurabh2005695.github.io/Saurabh_portfolio/)
+[![Live Demo](https://superb-mermaid-6dd27c.netlify.app/)]
+(https://saurabh2005695.github.io/Saurabh_portfolio/)
 [![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/HTML)
 [![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/CSS)
 [![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
