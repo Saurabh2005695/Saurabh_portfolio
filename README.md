@@ -1,4 +1,4 @@
-#  Saurabh Shriwastava — Interactive 3D Developer Portfolio
+# Saurabh Shriwastava — Interactive 3D Developer Portfolio
 
 [![Live Demo (Netlify)](https://img.shields.io/badge/Live_Demo-Netlify-00C7B7?style=for-the-badge&logo=netlify)](https://superb-mermaid-6dd27c.netlify.app/)
 [![Live Demo (GitHub Pages)](https://img.shields.io/badge/Live_Demo-GitHub_Pages-blueviolet?style=for-the-badge&logo=github)](https://saurabh2005695.github.io/Saurabh_portfolio/)
@@ -11,58 +11,58 @@ A state-of-the-art, interactive 3D portfolio website built to showcase projects,
 
 ---
 
-## 🚀 Live Demo
+## Live Demo
 
 Experience the live application here:  
-🌐 **Netlify Deployment**: [https://superb-mermaid-6dd27c.netlify.app/](https://superb-mermaid-6dd27c.netlify.app/)  
-⚡ **GitHub Pages**: [https://saurabh2005695.github.io/Saurabh_portfolio/](https://saurabh2005695.github.io/Saurabh_portfolio/)
+**Netlify Deployment**: [https://superb-mermaid-6dd27c.netlify.app/](https://superb-mermaid-6dd27c.netlify.app/)  
+**GitHub Pages**: [https://saurabh2005695.github.io/Saurabh_portfolio/](https://saurabh2005695.github.io/Saurabh_portfolio/)
 
 ---
 
-## ✨ Key Features
+## Key Features
 
-- **🌌 3D Interactive Canvas & Sky Scene**: Powered by Three.js featuring dynamic starfields, smooth camera mouse-parallax movement, and particle physics.
-- **🪐 Immersive Welcome Screen**: Interactive 3D intro loader with dynamic percentage progress, orbital ring animations, and entrance trigger.
-- **💎 Glassmorphism & Cyber Aesthetic**: Dark-themed cyberpunk visual style with glass cards, ambient neon glows, and custom mouse spotlight effects.
-- **⚡ 3D Card Physics**: Integrated `Vanilla-Tilt.js` for interactive hover tilt and reflection glare effects across all project and skill cards.
-- **🎨 Dynamic Theme Toggle**: One-click switching between dark cyber mode and high-contrast light mode.
-- **📱 Fully Responsive**: Custom CSS grid and flexbox layout optimized across desktop, tablet, and mobile displays with mobile drawer navigation.
-- **✍️ Typing Animation**: Dynamic auto-typing text effect highlighting core domains (Data Science, Full-Stack, Machine Learning).
-- **📬 Interactive Contact Form**: Direct email contact integration and social profile badges.
+- **3D Interactive Canvas & Sky Scene**: Powered by Three.js featuring dynamic starfields, smooth camera mouse-parallax movement, and particle physics.
+- **Immersive Welcome Screen**: Interactive 3D intro loader with dynamic percentage progress, orbital ring animations, and entrance trigger.
+- **Glassmorphism & Cyber Aesthetic**: Dark-themed cyberpunk visual style with glass cards, ambient neon glows, and custom mouse spotlight effects.
+- **3D Card Physics**: Integrated `Vanilla-Tilt.js` for interactive hover tilt and reflection glare effects across all project and skill cards.
+- **Dynamic Theme Toggle**: One-click switching between dark cyber mode and high-contrast light mode.
+- **Fully Responsive**: Custom CSS grid and flexbox layout optimized across desktop, tablet, and mobile displays with mobile drawer navigation.
+- **Typing Animation**: Dynamic auto-typing text effect highlighting core domains (Data Science, Full-Stack, Machine Learning).
+- **Interactive Contact Form**: Direct email contact integration and social profile badges.
 
 ---
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 | Category | Technologies / Libraries |
 | :--- | :--- |
 | **Core Frontend** | HTML5, CSS3 (Vanilla CSS, Custom Variables, Flexbox, Grid), JavaScript (ES6+) |
 | **3D Graphics & Physics** | Three.js (`r128`), Vanilla-Tilt.js (`1.8.0`) |
 | **Typography & Icons** | Outfit & Inter (Google Fonts), FontAwesome 6.4.0 |
-| **Deployment & Hosting**| Netlify, GitHub Pages |
+| **Deployment & Hosting** | Netlify, GitHub Pages |
 
 ---
 
-## 💻 Featured Projects in Portfolio
+## Featured Projects in Portfolio
 
-1. **🏥 Sarvodaya Drug Store Website**
+1. **Sarvodaya Drug Store Website**
    - A modern responsive web platform built for a local pharmacy to enhance digital accessibility.
-   - 🌐 [Live Demo](https://sarvodaya-drug-store.netlify.app/)
+   - [Live Demo](https://sarvodaya-drug-store.netlify.app/)
 
-2. **🇫🇷 Salut! — Interactive Language Learning Platform**
+2. **Salut! — Interactive Language Learning Platform**
    - Web application helping beginners learn French using interactive modules, flashcards, and quizzes.
-   - 🌐 [Live Demo](https://cute-elf-a3fbeb.netlify.app/) \| 💻 [Source Code](https://github.com/Saurabh2005695/Salut-A-French-learning-website.git)
+   - [Live Demo](https://cute-elf-a3fbeb.netlify.app/) | [Source Code](https://github.com/Saurabh2005695/Salut-A-French-learning-website.git)
 
-3. **✨ 3D Cyber Developer Portfolio**
+3. **3D Cyber Developer Portfolio**
    - Personal developer portfolio with 3D space animations and interactive glassmorphism UI.
-   - 🌐 [Live Demo (Netlify)](https://superb-mermaid-6dd27c.netlify.app/) \| 🌐 [Live Demo (GitHub Pages)](https://saurabh2005695.github.io/Saurabh_portfolio/) \| 💻 [Source Code](https://github.com/Saurabh2005695/Saurabh_portfolio.git)
+   - [Live Demo (Netlify)](https://superb-mermaid-6dd27c.netlify.app/) | [Live Demo (GitHub Pages)](https://saurabh2005695.github.io/Saurabh_portfolio/) | [Source Code](https://github.com/Saurabh2005695/Saurabh_portfolio.git)
 
-4. ** GitHub Profile Finder**
+4. **GitHub Profile Finder**
    - Web app utilizing the GitHub REST API to search profiles, repositories, and user statistics.
 
 ---
 
-##  Local Setup & Installation
+## Local Setup & Installation
 
 To run this project locally on your machine:
 
@@ -85,7 +85,7 @@ To run this project locally on your machine:
 
 ---
 
-##  Repository Structure
+## Repository Structure
 
 ```text
 Saurabh_portfolio/
@@ -99,7 +99,7 @@ Saurabh_portfolio/
 
 ---
 
-##  Contact & Socials
+## Contact & Socials
 
 - **Developer**: Saurabh Shriwastava
 - **Email**: [saurabhshriwastava323214@gmail.com](mailto:saurabhshriwastava323214@gmail.com)
