@@ -1,464 +1,414 @@
-/* ==========================================
-   1. WELCOME 3D INTRO SCREEN CONTROLLER
-   ========================================== */
+/* ==========================================================================
+   Saurabh Shriwastava Portfolio - Interactive 3D WebGL & UI Animation Script
+   ========================================================================== */
+
 document.addEventListener('DOMContentLoaded', () => {
+
+  // ==========================================
+  // 1. Custom Glowing Pointer Cursor
+  // ==========================================
+  const cursorDot = document.getElementById('cursor-dot');
+  const cursorOutline = document.getElementById('cursor-outline');
+  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+  if (isTouchDevice) {
+    if (cursorDot) cursorDot.style.display = 'none';
+    if (cursorOutline) cursorOutline.style.display = 'none';
+  } else if (cursorDot && cursorOutline) {
+    window.addEventListener('mousemove', (e) => {
+      const posX = e.clientX;
+      const posY = e.clientY;
+
+      cursorDot.style.left = `${posX}px`;
+      cursorDot.style.top = `${posY}px`;
+
+      cursorOutline.animate({
+        left: `${posX}px`,
+        top: `${posY}px`
+      }, { duration: 400, fill: "forwards" });
+    });
+  }
+
+  // ==========================================
+  // 2. Welcome Splash Screen Animation
+  // ==========================================
   const welcomeScreen = document.getElementById('welcome-screen');
-  const loaderFill = document.getElementById('welcome-loader-fill');
-  const statusText = document.getElementById('welcome-status-text');
-  const counter = document.getElementById('welcome-counter');
-  const enterBtn = document.getElementById('welcome-enter-btn');
+  const loaderBar = document.getElementById('loader-bar');
+  const loaderPercent = document.getElementById('loader-percent');
+  const enterBtn = document.getElementById('enter-btn');
+  const welcomeTypewriter = document.getElementById('welcome-typewriter');
+
+  const welcomeText = "Initializing Saurabh Shriwastava's 3D Interactive Workspace...";
+  let textIndex = 0;
+
+  function typeWelcomeText() {
+    if (welcomeTypewriter && textIndex < welcomeText.length) {
+      welcomeTypewriter.textContent += welcomeText.charAt(textIndex);
+      textIndex++;
+      setTimeout(typeWelcomeText, 40);
+    }
+  }
+  typeWelcomeText();
 
   let progress = 0;
-  const statusMessages = [
-    { threshold: 0, text: "INITIALIZING 3D CYBER ENGINE..." },
-    { threshold: 30, text: "GENERATING GRID TUNNEL & SHADERS..." },
-    { threshold: 65, text: "CALIBRATING SAURABH'S UNIVERSE..." },
-    { threshold: 90, text: "SYSTEM READY" }
-  ];
-
-  const interval = setInterval(() => {
-    progress += Math.floor(Math.random() * 4) + 2;
-    if (progress > 100) progress = 100;
-
-    if (loaderFill) loaderFill.style.width = progress + '%';
-    if (counter) counter.textContent = progress + '%';
-
-    const currentMsg = statusMessages.slice().reverse().find(m => progress >= m.threshold);
-    if (currentMsg && statusText) {
-      statusText.textContent = currentMsg.text;
-    }
-
+  const loadInterval = setInterval(() => {
+    progress += Math.floor(Math.random() * 8) + 4;
     if (progress >= 100) {
-      clearInterval(interval);
+      progress = 100;
+      clearInterval(loadInterval);
       if (enterBtn) {
-        enterBtn.style.opacity = '1';
-        enterBtn.style.pointerEvents = 'auto';
+        enterBtn.disabled = false;
+        enterBtn.classList.remove('disabled');
+        enterBtn.classList.add('pulse-btn');
       }
     }
-  }, 35);
-
-  function dismissWelcome() {
-    if (welcomeScreen) {
-      welcomeScreen.classList.add('hidden');
-      setTimeout(() => {
-        welcomeScreen.style.display = 'none';
-      }, 850);
-    }
-  }
+    if (loaderBar) loaderBar.style.width = `${progress}%`;
+    if (loaderPercent) loaderPercent.textContent = `${progress}%`;
+  }, 100);
 
   if (enterBtn) {
-    enterBtn.addEventListener('click', dismissWelcome);
+    enterBtn.addEventListener('click', () => {
+      if (welcomeScreen) {
+        welcomeScreen.classList.add('fade-out');
+        setTimeout(() => {
+          welcomeScreen.style.display = 'none';
+        }, 800);
+      }
+    });
   }
 
-  window.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && progress >= 100 && welcomeScreen && !welcomeScreen.classList.contains('hidden')) {
-      dismissWelcome();
+  // ==========================================
+  // 3. Three.js 3D WebGL Background Scene
+  // ==========================================
+  const canvas = document.getElementById('webgl-canvas');
+  if (canvas && typeof THREE !== 'undefined') {
+    const scene = new THREE.Scene();
+
+    const camera = new THREE.PerspectiveCamera(
+      75,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      1000
+    );
+    camera.position.z = 30;
+
+    const renderer = new THREE.WebGLRenderer({
+      canvas: canvas,
+      alpha: true,
+      antialias: true
+    });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    // Particle Cloud Geometry
+    const particlesCount = 750;
+    const posArray = new Float32Array(particlesCount * 3);
+
+    for (let i = 0; i < particlesCount * 3; i++) {
+      posArray[i] = (Math.random() - 0.5) * 85;
     }
-  });
-});
 
-/* ==========================================
-   2. THREE.JS 3D SKY & STARRY CELESTIAL ENGINE
-   ========================================== */
-let scene, camera, renderer, starSystem, moonMesh, moonAura, cloudGroup, meteorGroup;
-let mouseX = 0, mouseY = 0;
-let targetMouseX = 0, targetMouseY = 0;
-const meteors = [];
+    const particlesGeometry = new THREE.BufferGeometry();
+    particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
 
-function init3DEngine() {
-  const canvas = document.getElementById('bg-canvas-3d');
-  if (!canvas || typeof THREE === 'undefined') return;
+    const particlesMaterial = new THREE.PointsMaterial({
+      size: 0.13,
+      color: 0x00f2fe,
+      transparent: true,
+      opacity: 0.85
+    });
 
-  scene = new THREE.Scene();
+    const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+    scene.add(particlesMesh);
 
-  camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-  camera.position.z = 40;
+    // Floating 3D Geometric Objects
+    const geoGroup = new THREE.Group();
 
-  renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-  // 1. TWINKLING STARFIELD (2,500 STARS)
-  const starCount = 2500;
-  const starGeo = new THREE.BufferGeometry();
-  const starPositions = new Float32Array(starCount * 3);
-  const starColors = new Float32Array(starCount * 3);
-
-  const starPalettes = [
-    new THREE.Color('#ffffff'),
-    new THREE.Color('#e0f2fe'),
-    new THREE.Color('#bae6fd'),
-    new THREE.Color('#ddd6fe'),
-    new THREE.Color('#fef08a'),
-    new THREE.Color('#38bdf8')
-  ];
-
-  for (let i = 0; i < starCount; i++) {
-    const i3 = i * 3;
-    starPositions[i3] = (Math.random() - 0.5) * 170;
-    starPositions[i3 + 1] = (Math.random() - 0.5) * 150;
-    starPositions[i3 + 2] = (Math.random() - 0.5) * 120 - 10;
-
-    const col = starPalettes[Math.floor(Math.random() * starPalettes.length)];
-    starColors[i3] = col.r;
-    starColors[i3 + 1] = col.g;
-    starColors[i3 + 2] = col.b;
-  }
-
-  starGeo.setAttribute('position', new THREE.BufferAttribute(starPositions, 3));
-  starGeo.setAttribute('color', new THREE.BufferAttribute(starColors, 3));
-
-  const starMat = new THREE.PointsMaterial({
-    size: 0.45,
-    vertexColors: true,
-    transparent: true,
-    opacity: 0.9,
-    blending: THREE.AdditiveBlending
-  });
-
-  starSystem = new THREE.Points(starGeo, starMat);
-  scene.add(starSystem);
-
-  // 2. 3D CELESTIAL MOON & SOFT ATMOSPHERIC AURA
-  const moonGeo = new THREE.SphereGeometry(4.8, 32, 32);
-  const moonMat = new THREE.MeshBasicMaterial({
-    color: 0xf8fafc,
-    transparent: true,
-    opacity: 0.88
-  });
-  moonMesh = new THREE.Mesh(moonGeo, moonMat);
-  moonMesh.position.set(22, 16, -20);
-  scene.add(moonMesh);
-
-  // Soft Moon Glow Ring
-  const auraGeo = new THREE.RingGeometry(5.0, 9.2, 32);
-  const auraMat = new THREE.MeshBasicMaterial({
-    color: 0x38bdf8,
-    side: THREE.DoubleSide,
-    transparent: true,
-    opacity: 0.22,
-    blending: THREE.AdditiveBlending
-  });
-  moonAura = new THREE.Mesh(auraGeo, auraMat);
-  moonAura.position.set(22, 16, -20.1);
-  scene.add(moonAura);
-
-  // 3. FLOATING VOLUMETRIC SKY CLOUDS
-  cloudGroup = new THREE.Group();
-  const cloudCount = 8;
-  for (let c = 0; c < cloudCount; c++) {
-    const cloudGeo = new THREE.DodecahedronGeometry(Math.random() * 5 + 4, 1);
-    const cloudMat = new THREE.MeshBasicMaterial({
-      color: 0x1e293b,
+    // 1. Icosahedron (Violet Wireframe)
+    const icoGeo = new THREE.IcosahedronGeometry(4.5, 1);
+    const icoMat = new THREE.MeshBasicMaterial({
+      color: 0x7f00ff,
       wireframe: true,
       transparent: true,
-      opacity: 0.15 + Math.random() * 0.12
+      opacity: 0.38
     });
-    const cloud = new THREE.Mesh(cloudGeo, cloudMat);
-    cloud.position.set(
-      (Math.random() - 0.5) * 130,
-      (Math.random() - 0.5) * 55 - 5,
-      (Math.random() - 0.5) * 45 - 20
-    );
-    cloudGroup.add(cloud);
-  }
-  scene.add(cloudGroup);
+    const icoMesh = new THREE.Mesh(icoGeo, icoMat);
+    icoMesh.position.set(-18, 10, -5);
+    geoGroup.add(icoMesh);
 
-  // 4. SHOOTING STARS (METEORS) GROUP
-  meteorGroup = new THREE.Group();
-  scene.add(meteorGroup);
-
-  function createMeteor() {
-    const geometry = new THREE.BufferGeometry();
-    const positions = new Float32Array([0, 0, 0, -7, 4.5, -2]);
-    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-
-    const material = new THREE.LineBasicMaterial({
-      color: 0x38bdf8,
+    // 2. TorusKnot (Cyan Wireframe)
+    const torusGeo = new THREE.TorusKnotGeometry(3.2, 0.85, 100, 16);
+    const torusMat = new THREE.MeshBasicMaterial({
+      color: 0x00f2fe,
+      wireframe: true,
       transparent: true,
-      opacity: 1,
-      linewidth: 2
+      opacity: 0.32
+    });
+    const torusMesh = new THREE.Mesh(torusGeo, torusMat);
+    torusMesh.position.set(20, -10, -8);
+    geoGroup.add(torusMesh);
+
+    // 3. Octahedron (Magenta Wireframe)
+    const octaGeo = new THREE.OctahedronGeometry(3.2, 0);
+    const octaMat = new THREE.MeshBasicMaterial({
+      color: 0xff007f,
+      wireframe: true,
+      transparent: true,
+      opacity: 0.42
+    });
+    const octaMesh = new THREE.Mesh(octaGeo, octaMat);
+    octaMesh.position.set(15, 12, -10);
+    geoGroup.add(octaMesh);
+
+    scene.add(geoGroup);
+
+    // Mouse & Touch Parallax Movement
+    let targetX = 0;
+    let targetY = 0;
+
+    window.addEventListener('mousemove', (event) => {
+      targetX = (event.clientX / window.innerWidth - 0.5) * 2;
+      targetY = (event.clientY / window.innerHeight - 0.5) * 2;
     });
 
-    const line = new THREE.Line(geometry, material);
-    line.position.set(
-      (Math.random() - 0.5) * 100 + 20,
-      Math.random() * 45 + 10,
-      (Math.random() - 0.5) * 40
-    );
+    window.addEventListener('touchmove', (event) => {
+      if (event.touches && event.touches[0]) {
+        targetX = (event.touches[0].clientX / window.innerWidth - 0.5) * 2;
+        targetY = (event.touches[0].clientY / window.innerHeight - 0.5) * 2;
+      }
+    }, { passive: true });
 
-    line.userData = {
-      speedX: -(Math.random() * 1.8 + 1.2),
-      speedY: -(Math.random() * 1.2 + 0.8),
-      life: 1.0
-    };
+    // Animation Loop
+    const clock = new THREE.Clock();
 
-    meteorGroup.add(line);
-    meteors.push(line);
-  }
+    function animate() {
+      requestAnimationFrame(animate);
+      const elapsedTime = clock.getElapsedTime();
 
-  // Periodically spawn meteors
-  setInterval(() => {
-    if (meteors.length < 4 && Math.random() > 0.25) {
-      createMeteor();
+      // Rotate particle cloud
+      particlesMesh.rotation.y = elapsedTime * 0.03;
+      particlesMesh.rotation.x = elapsedTime * 0.02;
+
+      // Rotate floating geometries
+      icoMesh.rotation.x = elapsedTime * 0.2;
+      icoMesh.rotation.y = elapsedTime * 0.3;
+
+      torusMesh.rotation.x = elapsedTime * 0.25;
+      torusMesh.rotation.z = elapsedTime * 0.2;
+
+      octaMesh.rotation.y = elapsedTime * 0.4;
+
+      // Parallax smooth camera movement
+      camera.position.x += (targetX * 3.5 - camera.position.x) * 0.05;
+      camera.position.y += (-targetY * 3.5 - camera.position.y) * 0.05;
+      camera.lookAt(scene.position);
+
+      renderer.render(scene, camera);
     }
-  }, 2000);
+    animate();
 
-  const ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
-  scene.add(ambientLight);
-
-  document.addEventListener('mousemove', (e) => {
-    targetMouseX = (e.clientX - window.innerWidth / 2) * 0.0008;
-    targetMouseY = (e.clientY - window.innerHeight / 2) * 0.0008;
-  });
-
-  document.addEventListener('touchmove', (e) => {
-    if (e.touches && e.touches.length > 0) {
-      targetMouseX = (e.touches[0].clientX - window.innerWidth / 2) * 0.0008;
-      targetMouseY = (e.touches[0].clientY - window.innerHeight / 2) * 0.0008;
+    // Window Resize & Responsive 3D Scaling Event
+    function update3DScaling() {
+      if (window.innerWidth < 768) {
+        camera.position.z = 38;
+        icoMesh.position.set(-10, 14, -10);
+        torusMesh.position.set(12, -14, -10);
+        octaMesh.position.set(10, 16, -12);
+      } else {
+        camera.position.z = 30;
+        icoMesh.position.set(-18, 10, -5);
+        torusMesh.position.set(20, -10, -8);
+        octaMesh.position.set(15, 12, -10);
+      }
     }
-  }, { passive: true });
+    update3DScaling();
 
-  window.addEventListener('resize', onWindowResize);
-  animate3D();
-}
-
-function animate3D() {
-  requestAnimationFrame(animate3D);
-
-  const time = Date.now() * 0.002;
-  mouseX += (targetMouseX - mouseX) * 0.05;
-  mouseY += (targetMouseY - mouseY) * 0.05;
-
-  const scrollY = window.scrollY || 0;
-
-  // Starfield Rotation & Twinkle
-  if (starSystem) {
-    starSystem.rotation.y += 0.0003;
-    starSystem.rotation.x = mouseY * 0.4;
-    starSystem.rotation.y += mouseX * 0.4;
-  }
-
-  // Floating Moon Movement
-  if (moonMesh) {
-    moonMesh.position.y = 16 + Math.sin(time * 0.5) * 1.2;
-    moonMesh.position.x = 22 + Math.cos(time * 0.3) * 0.8;
-  }
-  if (moonAura) {
-    moonAura.position.y = 16 + Math.sin(time * 0.5) * 1.2;
-    moonAura.position.x = 22 + Math.cos(time * 0.3) * 0.8;
-  }
-
-  // Floating Sky Clouds Drifting
-  if (cloudGroup) {
-    cloudGroup.children.forEach((cloud, index) => {
-      cloud.position.x += 0.015 * (index % 2 === 0 ? 1 : 0.7);
-      if (cloud.position.x > 75) cloud.position.x = -75;
-      cloud.rotation.z += 0.001;
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      update3DScaling();
     });
-    cloudGroup.position.y = -scrollY * 0.006;
   }
 
-  // Animate Meteors
-  for (let i = meteors.length - 1; i >= 0; i--) {
-    const meteor = meteors[i];
-    meteor.position.x += meteor.userData.speedX;
-    meteor.position.y += meteor.userData.speedY;
-    meteor.userData.life -= 0.025;
-    meteor.material.opacity = Math.max(0, meteor.userData.life);
+  // ==========================================
+  // 4. Hero Dynamic Typewriter Effect
+  // ==========================================
+  const heroTypewriter = document.getElementById('hero-typewriter');
+  if (heroTypewriter) {
+    const roles = [
+      "Data Science & Analytics",
+      "Full-Stack Web Development",
+      "Machine Learning Concepts",
+      "Interactive 3D Web Solutions",
+      "Quantitative & Algorithmic Analysis"
+    ];
 
-    if (meteor.userData.life <= 0) {
-      meteorGroup.remove(meteor);
-      meteors.splice(i, 1);
+    let roleIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+
+    function typeRoles() {
+      const currentRole = roles[roleIndex];
+
+      if (isDeleting) {
+        heroTypewriter.textContent = currentRole.substring(0, charIndex - 1);
+        charIndex--;
+      } else {
+        heroTypewriter.textContent = currentRole.substring(0, charIndex + 1);
+        charIndex++;
+      }
+
+      let typeSpeed = isDeleting ? 40 : 80;
+
+      if (!isDeleting && charIndex === currentRole.length) {
+        typeSpeed = 2000; // Pause at end
+        isDeleting = true;
+      } else if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        roleIndex = (roleIndex + 1) % roles.length;
+        typeSpeed = 500;
+      }
+
+      setTimeout(typeRoles, typeSpeed);
     }
+    typeRoles();
   }
 
-  camera.position.x += (mouseX * 10 - camera.position.x) * 0.05;
-  camera.position.y += (-mouseY * 10 - camera.position.y) * 0.05;
-  camera.lookAt(scene.position);
+  // ==========================================
+  // 5. 3D Card Tilt Interaction
+  // ==========================================
+  const tiltCards = document.querySelectorAll('.tilt-card, #hero-card');
 
-  renderer.render(scene, camera);
-}
-
-function onWindowResize() {
-  if (!camera || !renderer) return;
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth, window.innerHeight);
-}
-
-if (document.readyState === 'complete' || document.readyState === 'interactive') {
-  init3DEngine();
-} else {
-  document.addEventListener('DOMContentLoaded', init3DEngine);
-}
-
-/* ==========================================
-   3. MOUSE & TOUCH SPOTLIGHT SHIMMER TRACKER
-   ========================================== */
-document.addEventListener('DOMContentLoaded', () => {
-  const cards = document.querySelectorAll('.card, .project-card, .skill-card, .internship-card, .hero-panel');
-
-  cards.forEach(card => {
-    const updateSpotlight = (clientX, clientY) => {
+  tiltCards.forEach(card => {
+    const updateTilt = (clientX, clientY) => {
       const rect = card.getBoundingClientRect();
       const x = clientX - rect.left;
       const y = clientY - rect.top;
-      card.style.setProperty('--mouse-x', `${x}px`);
-      card.style.setProperty('--mouse-y', `${y}px`);
+
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+
+      const rotateX = (centerY - y) / 12;
+      const rotateY = (x - centerX) / 12;
+
+      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
     };
 
-    card.addEventListener('mousemove', (e) => updateSpotlight(e.clientX, e.clientY));
+    card.addEventListener('mousemove', (e) => updateTilt(e.clientX, e.clientY));
     card.addEventListener('touchmove', (e) => {
       if (e.touches && e.touches[0]) {
-        updateSpotlight(e.touches[0].clientX, e.touches[0].clientY);
+        updateTilt(e.touches[0].clientX, e.touches[0].clientY);
       }
     }, { passive: true });
-  });
-});
 
-/* ==========================================
-   4. VANILLA TILT 3D CARD PHYSICS
-   ========================================== */
-document.addEventListener('DOMContentLoaded', () => {
-  const isMobile = window.innerWidth <= 768 || 'ontouchstart' in window;
-  if (typeof VanillaTilt !== 'undefined') {
-    VanillaTilt.init(document.querySelectorAll("[data-tilt]"), {
-      max: isMobile ? 6 : 12,
-      speed: 400,
-      glare: !isMobile,
-      "max-glare": 0.2,
-      gyroscope: false
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+    });
+    card.addEventListener('touchend', () => {
+      card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+    });
+  });
+
+  // ==========================================
+  // 6. Skill Category Filter Logic
+  // ==========================================
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const skillCards = document.querySelectorAll('.skill-card');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const filterValue = btn.getAttribute('data-filter');
+
+      skillCards.forEach(card => {
+        const category = card.getAttribute('data-category');
+
+        if (filterValue === 'all' || category === filterValue) {
+          card.style.display = 'block';
+          setTimeout(() => {
+            card.style.opacity = '1';
+            card.style.transform = 'scale(1)';
+          }, 50);
+        } else {
+          card.style.opacity = '0';
+          card.style.transform = 'scale(0.9)';
+          setTimeout(() => {
+            card.style.display = 'none';
+          }, 300);
+        }
+      });
+    });
+  });
+
+  // ==========================================
+  // 7. Navbar Scroll Effect & Mobile Toggle
+  // ==========================================
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) {
+      navbar.classList.add('scrolled');
+    } else {
+      navbar.classList.remove('scrolled');
+    }
+  });
+
+  const mobileToggle = document.getElementById('mobile-toggle');
+  const navLinks = document.querySelector('.nav-links');
+
+  if (mobileToggle && navLinks) {
+    const toggleIcon = mobileToggle.querySelector('i');
+
+    function closeMobileMenu() {
+      navLinks.classList.remove('active');
+      mobileToggle.setAttribute('aria-expanded', 'false');
+      if (toggleIcon) {
+        toggleIcon.className = 'fa-solid fa-bars';
+      }
+    }
+
+    function openMobileMenu() {
+      navLinks.classList.add('active');
+      mobileToggle.setAttribute('aria-expanded', 'true');
+      if (toggleIcon) {
+        toggleIcon.className = 'fa-solid fa-xmark';
+      }
+    }
+
+    mobileToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (navLinks.classList.contains('active')) {
+        closeMobileMenu();
+      } else {
+        openMobileMenu();
+      }
+    });
+
+    const links = navLinks.querySelectorAll('a');
+    links.forEach(link => {
+      link.addEventListener('click', () => {
+        closeMobileMenu();
+      });
+    });
+
+    document.addEventListener('click', (e) => {
+      if (navLinks.classList.contains('active') && !navbar.contains(e.target)) {
+        closeMobileMenu();
+      }
     });
   }
-});
 
-/* ==========================================
-   5. THEME TOGGLE (DARK / LIGHT SYNC)
-   ========================================== */
-const themeToggle = document.getElementById('theme-toggle');
-
-function applyTheme(theme) {
-  document.body.setAttribute('data-theme', theme);
-  if (themeToggle) {
-    themeToggle.setAttribute('aria-pressed', String(theme === 'light'));
-    const icon = themeToggle.querySelector('i');
-    const label = themeToggle.querySelector('span');
-    if (icon) icon.className = theme === 'light' ? 'fas fa-sun' : 'fas fa-moon';
-    if (label) label.textContent = theme === 'light' ? 'Light' : 'Dark';
-  }
-  localStorage.setItem('portfolio-theme', theme);
-}
-
-const savedTheme = localStorage.getItem('portfolio-theme');
-const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
-applyTheme(savedTheme || (prefersLight ? 'light' : 'dark'));
-
-themeToggle?.addEventListener('click', () => {
-  const nextTheme = document.body.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-  applyTheme(nextTheme);
-});
-
-/* ==========================================
-   6. HERO TYPING ANIMATION
-   ========================================== */
-const words = ["Data Science & Analytics", "Machine Learning Concepts", "Full-Stack Development", "Interactive 3D Web Solutions"];
-let wIndex = 0, cIndex = 0, deleting = false;
-const typeTarget = document.getElementById('type-target');
-
-function typeLoop() {
-  if (!typeTarget) return;
-  const word = words[wIndex];
-  if (!deleting) {
-    cIndex++;
-    typeTarget.textContent = word.slice(0, cIndex);
-    if (cIndex === word.length) {
-      deleting = true;
-      setTimeout(typeLoop, 1200);
-      return;
-    }
-  } else {
-    cIndex--;
-    typeTarget.textContent = word.slice(0, cIndex);
-    if (cIndex === 0) {
-      deleting = false;
-      wIndex = (wIndex + 1) % words.length;
-    }
-  }
-  setTimeout(typeLoop, deleting ? 50 : 90);
-}
-if (typeTarget) typeLoop();
-
-/* ==========================================
-   7. SCROLL REVEAL OBSERVER
-   ========================================== */
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('reveal');
-    }
-  });
-}, { threshold: 0.12 });
-
-document.querySelectorAll('.card, .project-card, .skill-card, .internship-card, .section-title').forEach(el => {
-  observer.observe(el);
-});
-
-/* ==========================================
-   8. MOBILE NAV TOGGLE & BACKDROP OVERLAY
-   ========================================== */
-const navToggle = document.querySelector('.nav-toggle');
-const navLinks = document.querySelector('.nav-links');
-const navOverlay = document.getElementById('nav-overlay');
-
-if (navToggle && navLinks) {
-  function toggleNav() {
-    const isOpen = navLinks.classList.toggle('open');
-    navToggle.classList.toggle('nav-open', isOpen);
-    navToggle.setAttribute('aria-expanded', String(isOpen));
-    if (navOverlay) navOverlay.classList.toggle('active', isOpen);
+  // ==========================================
+  // 8. Contact Form & Back to Top Handling
+  // ==========================================
+  const contactForm = document.getElementById('contact-form');
+  if (contactForm) {
+    contactForm.addEventListener('submit', (e) => {
+      const name = document.getElementById('name').value;
+      alert(`Thank you, ${name}! Your message is being sent to Saurabh Shriwastava.`);
+    });
   }
 
-  function closeNav() {
-    navLinks.classList.remove('open');
-    navToggle.classList.remove('nav-open');
-    navToggle.setAttribute('aria-expanded', 'false');
-    if (navOverlay) navOverlay.classList.remove('active');
-  }
-
-  navToggle.addEventListener('click', toggleNav);
-  if (navOverlay) navOverlay.addEventListener('click', closeNav);
-
-  navLinks.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', closeNav);
-  });
-}
-
-const rippleLayer = document.getElementById('ripple-layer');
-window.addEventListener('click', (e) => {
-  if (!rippleLayer) return;
-  const r = document.createElement('div');
-  r.className = 'ripple';
-  const size = Math.max(window.innerWidth, window.innerHeight) * 0.15;
-  r.style.width = r.style.height = size + 'px';
-  r.style.left = (e.clientX - size / 2) + 'px';
-  r.style.top = (e.clientY - size / 2) + 'px';
-  r.style.position = 'fixed';
-  r.style.borderRadius = '50%';
-  r.style.background = 'radial-gradient(circle, rgba(6, 182, 212, 0.3), rgba(139, 92, 246, 0.15), transparent 70%)';
-  r.style.pointerEvents = 'none';
-  r.style.transform = 'scale(0)';
-  r.style.animation = 'rippleExpand 0.6s ease-out forwards';
-  r.style.zIndex = '999';
-  rippleLayer.appendChild(r);
-  setTimeout(() => r.remove(), 600);
 });
-
-const styleSheet = document.createElement("style");
-styleSheet.innerText = `
-@keyframes rippleExpand {
-  0% { transform: scale(0); opacity: 0.8; }
-  100% { transform: scale(3.5); opacity: 0; }
-}
-`;
-document.head.appendChild(styleSheet);

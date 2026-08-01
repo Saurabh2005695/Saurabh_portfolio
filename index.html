@@ -2,392 +2,650 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Saurabh Shriwastava — Portfolio</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Saurabh Shriwastava | Full-Stack Developer & Data Science Enthusiast</title>
+  <meta name="description"
+    content="Portfolio of Saurabh Shriwastava - Computer Science Undergraduate, Full-Stack Web Developer, Data Science & Machine Learning Enthusiast." />
 
-  <!-- Fonts & Icons -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Outfit:wght@400;600;700;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
 
-  <!-- 3D Libraries: Three.js & Vanilla-Tilt -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
+  <!-- Stylesheet -->
   <link rel="stylesheet" href="style.css" />
-  <script defer src="script.js"></script>
+
+  <!-- Three.js CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 
 <body>
-  <!-- 3D Interactive Canvas -->
-  <canvas id="bg-canvas-3d"></canvas>
 
-  <!-- Welcome 3D Intro Screen -->
-  <div id="welcome-screen" class="welcome-screen">
-    <div class="welcome-bg-glow"></div>
-    <div class="welcome-content">
-      <div class="welcome-3d-visual">
-        <div class="ring-3d ring-outer"></div>
-        <div class="ring-3d ring-inner"></div>
-        <div class="welcome-sphere"></div>
+  <!-- Custom Pointer / Glow Cursor -->
+  <div class="cursor-dot" id="cursor-dot"></div>
+  <div class="cursor-outline" id="cursor-outline"></div>
+
+  <!-- 3D Welcome Splash Screen Overlay -->
+  <div id="welcome-screen" class="welcome-overlay">
+    <div class="welcome-card">
+      <div class="welcome-badge">
+        <span class="pulse-dot"></span> System Initializing
       </div>
-
-      <h1 class="welcome-title">
-        <span class="welcome-tag">WELCOME TO</span>
-        <span class="gradient-text">SAURABH'S UNIVERSE</span>
-      </h1>
-      <p class="welcome-subtitle">Data Science & Full-Stack Development Portfolio</p>
-
-      <div class="welcome-loader">
-        <div class="loader-bar-bg">
-          <div class="loader-bar-fill" id="welcome-loader-fill"></div>
-        </div>
-        <div class="loader-status">
-          <span id="welcome-status-text">INITIALIZING 3D ENVIRONMENT...</span>
-          <span id="welcome-counter">0%</span>
-        </div>
+      <div class="welcome-avatar">
+        <i class="fa-solid fa-code"></i>
       </div>
+      <h1 class="welcome-title">Welcome to <span class="gradient-text">Saurabh's Universe</span></h1>
+      <p class="welcome-subtitle" id="welcome-typewriter"></p>
 
-      <button id="welcome-enter-btn" class="welcome-enter-btn" style="opacity: 0; pointer-events: none;">
-        <span>EXPLORE EXPERIENCE</span>
-        <i class="fas fa-arrow-right"></i>
+      <div class="loader-container">
+        <div class="loader-bar" id="loader-bar"></div>
+      </div>
+      <div class="loader-percentage" id="loader-percent">0%</div>
+
+      <button id="enter-btn" class="btn btn-primary enter-btn disabled" disabled>
+        <span>Explore Portfolio</span> <i class="fa-solid fa-arrow-right"></i>
       </button>
     </div>
   </div>
 
-  <!-- Click ripple container -->
-  <div id="ripple-layer" aria-hidden="true"></div>
+  <!-- Three.js 3D WebGL Background Canvas -->
+  <canvas id="webgl-canvas"></canvas>
 
-  <!-- NAV -->
-  <header class="nav-wrap">
-    <div id="nav-overlay" class="nav-overlay" aria-hidden="true"></div>
-    <nav class="nav container">
-      <div class="brand">
-        <span class="brand-mark"></span>
-        <span class="brand-name">Saurabh</span>
-      </div>
+  <!-- Navigation Bar -->
+  <header id="navbar">
+    <div class="nav-container">
+      <a href="#" class="logo">
+        Saurabh<span class="logo-accent">.Shriwastava</span>
+      </a>
 
-      <ul class="nav-links">
-        <li><a href="#home">Home</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#skills">Skills</a></li>
-        <li><a href="#internships">Internships</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
+      <nav class="nav-links">
+        <a href="#about" class="nav-link"><i class="fa-solid fa-user-astronaut"></i> About</a>
+        <a href="#skills" class="nav-link"><i class="fa-solid fa-layer-group"></i> Skills</a>
+        <a href="#projects" class="nav-link"><i class="fa-solid fa-laptop-code"></i> Projects</a>
+        <a href="#journey" class="nav-link"><i class="fa-solid fa-timeline"></i> Journey</a>
+        <a href="#contact" class="nav-link"><i class="fa-solid fa-paper-plane"></i> Contact</a>
+      </nav>
 
-      <div class="nav-controls">
-        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"
-          title="Switch between dark and light mode">
-          <i class="fas fa-moon"></i>
-          <span>Dark</span>
-        </button>
-
-        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
-          <span class="hamburger"></span>
+      <div class="nav-actions">
+        <a href="#contact" class="btn btn-outline btn-sm">Hire Me</a>
+        <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle menu" aria-expanded="false">
+          <i class="fa-solid fa-bars"></i>
         </button>
       </div>
-    </nav>
+    </div>
   </header>
 
-  <!-- HERO -->
-  <section id="home" class="hero">
-    <div class="container hero-inner">
-      <div class="hero-left">
+  <main>
+    <!-- Hero Section -->
+    <section id="hero" class="hero-section">
+      <div class="container hero-container">
+        <div class="hero-content">
+          <div class="status-pill">
+            <span class="status-dot"></span> Computer Science Undergraduate
+          </div>
+
+          <h1 class="hero-title">
+            Hi, I'm <span class="gradient-text hero-name">Saurabh Shriwastava</span>
+          </h1>
+
+          <div class="role-wrapper">
+            <span class="role-static">I am exploring </span>
+            <span class="role-dynamic" id="hero-typewriter"></span>
+            <span class="cursor-blink">|</span>
+          </div>
+
+          <p class="hero-description">
+            Computer Science undergraduate passionate about crafting seamless digital interfaces and extracting meaningful insights from complex systems. Blending Quantitative Analysis, Machine Learning concepts, and modern Full-Stack Web Development.
+          </p>
+
+          <div class="hero-cta">
+            <a href="#projects" class="btn btn-primary btn-glow">
+              <i class="fa-solid fa-rocket"></i> View Projects
+            </a>
+            <a href="#contact" class="btn btn-glass">
+              <i class="fa-solid fa-comments"></i> Let's Connect
+            </a>
+          </div>
+
+          <div class="hero-tags">
+            <span class="tech-tag"><i class="fa-brands fa-python"></i> Python & Analytics</span>
+            <span class="tech-tag"><i class="fa-solid fa-database"></i> DBMS & SQL</span>
+            <span class="tech-tag"><i class="fa-brands fa-js"></i> Full-Stack Web</span>
+            <span class="tech-tag"><i class="fa-solid fa-chart-pie"></i> Machine Learning</span>
+            <span class="tech-tag"><i class="fa-solid fa-cube"></i> 3D Web Solutions</span>
+          </div>
+        </div>
+
         <div class="hero-visual">
-          <div class="visual-ring ring-outer"></div>
-          <div class="visual-ring ring-inner"></div>
-          <div class="visual-crystal crystal-one"></div>
-          <div class="visual-crystal crystal-two"></div>
-          <div class="visual-sphere"></div>
-          <div class="profile-wrap">
-            <img class="profile-photo" src="./assets/1000042575.jpg" alt="Saurabh Shriwastava"
-              onerror="this.style.display='none'" />
-            <div class="photo-glow"></div>
+          <div class="card-3d-wrapper">
+            <div class="card-3d" id="hero-card">
+              <div class="card-glow"></div>
+              <div class="card-inner">
+                <div class="avatar-ring">
+                  <div class="avatar-box">
+                    <img class="profile-img" src="./assets/1000042575.jpg" alt="Saurabh Shriwastava" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+                    <i class="fa-solid fa-user-astronaut fallback-icon" style="display:none;"></i>
+                  </div>
+                </div>
+                <h3 class="card-name">Saurabh Shriwastava</h3>
+                <p class="card-role">Software & Quantitative Analysis</p>
+
+                <div class="card-stats">
+                  <div class="stat-item">
+                    <span class="stat-number">3+</span>
+                    <span class="stat-label">Projects</span>
+                  </div>
+                  <div class="stat-divider"></div>
+                  <div class="stat-item">
+                    <span class="stat-number">2+</span>
+                    <span class="stat-label">Internships</span>
+                  </div>
+                  <div class="stat-divider"></div>
+                  <div class="stat-item">
+                    <span class="stat-number">DS & CS</span>
+                    <span class="stat-label">Focus Area</span>
+                  </div>
+                </div>
+
+                <div class="card-footer-badge">
+                  <i class="fa-solid fa-graduation-cap"></i> Computer Science Scholar
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
+    </section>
 
-      <div class="hero-right hero-panel" data-tilt data-tilt-max="8" data-tilt-speed="400" data-tilt-glare="true" data-tilt-max-glare="0.15">
-        <div class="card-spotlight"></div>
-        <h1 class="hero-title">Hi, I’m <span class="name-highlight">Saurabh</span></h1>
-        <p class="hero-badge">Software & Quantitative Analysis</p>
-        <p class="hero-sub">Computer Science undergraduate passionate about crafting seamless digital interfaces and extracting meaningful insights from complex systems.</p>
-
-        <p class="hero-type">I’m exploring <span id="type-target" aria-live="polite"></span></p>
-
-        <div class="hero-cta">
-          <a class="btn primary" href="#projects">View Projects</a>
-          <a class="btn ghost" href="#internships">Explore Internships</a>
-          <a class="btn ghost" href="mailto:saurabhshriwastava323214@gmail.com">Say Hello</a>
+    <!-- About Me Section -->
+    <section id="about" class="section about-section">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="section-subtitle">Discover My Story</span>
+          <h2 class="section-title">About <span class="gradient-text">Saurabh</span></h2>
+          <div class="section-line"></div>
         </div>
 
-        <div class="hero-metrics">
-          <div class="metric-card" data-tilt data-tilt-max="15">
-            <strong>Analytics</strong>
-            <span>& Insights</span>
+        <div class="about-grid">
+          <div class="about-card glass-card">
+            <div class="about-icon">
+              <i class="fa-solid fa-laptop-code"></i>
+            </div>
+            <h3>Digital Experience Architecture</h3>
+            <p>
+              Designing responsive, accessible user interfaces and modern web applications with focus on usability, clean code structure, and aesthetic excellence.
+            </p>
           </div>
-          <div class="metric-card" data-tilt data-tilt-max="15">
-            <strong>Digital</strong>
-            <span>Products</span>
+
+          <div class="about-card glass-card">
+            <div class="about-icon">
+              <i class="fa-solid fa-chart-network"></i>
+            </div>
+            <h3>Analytical & Data Reasoning</h3>
+            <p>
+              Deriving actionable patterns, statistical insights, and quantitative solutions from structured inputs, statistical models, and machine learning concepts.
+            </p>
           </div>
-          <div class="metric-card" data-tilt data-tilt-max="15">
-            <strong>Machine</strong>
-            <span>Learning</span>
-          </div>
-        </div>
 
-        <div class="social-compact">
-          <a href="https://github.com/Saurabh2005695" target="_blank" rel="noopener"><i class="fab fa-github"></i></a>
-          <a href="https://www.linkedin.com/in/saurabh-shriwastava-b97a26262/" target="_blank" rel="noopener"><i
-              class="fab fa-linkedin"></i></a>
-          <a href="https://www.instagram.com/saurabhshriwastava?igsh=cXBnaG9hZzVrNjhz" target="_blank" rel="noopener"><i
-              class="fab fa-instagram"></i></a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ABOUT -->
-  <section id="about" class="about container">
-    <h2 class="section-title">About Me</h2>
-    <div class="about-grid">
-      <div class="about-text card" data-tilt data-tilt-max="6" data-tilt-speed="400">
-        <div class="card-spotlight"></div>
-        <p class="lead-paragraph">
-          I am a Computer Science undergraduate focused on bridging the gap between intelligent quantitative insights and modern digital experiences. My work centers on architecting clean, intuitive user interfaces while leveraging analytical reasoning to solve complex real-world problems.
-        </p>
-        <p class="lead-paragraph">
-          Rather than viewing software and data analysis in isolation, I thrive at the intersection of computational logic and digital craftsmanship. Whether it’s uncovering actionable patterns within complex datasets, optimizing logic, or designing user-centric web applications, I prioritize clarity, performance, and engineering discipline.
-        </p>
-        <p class="lead-paragraph">
-          Driven by curiosity and a commitment to continuous learning, I am constantly exploring modern development frameworks, statistical techniques, and scalable solution architecture to build software products that deliver genuine value.
-        </p>
-
-        <ul class="about-highlights">
-          <li><strong>Digital Experience Architecture:</strong> Designing responsive, accessible user interfaces and modern web applications with focus on usability</li>
-          <li><strong>Analytical & Data Reasoning:</strong> Deriving actionable patterns, statistical insights, and quantitative solutions from structured inputs</li>
-          <li><strong>Workflow & Ecosystem:</strong> Version control with Git, collaborative workflows on GitHub, VS Code environment, and Python analytics tooling</li>
-          <li><strong>Core Engineering Mindset:</strong> Algorithmic problem-solving, code performance optimization, and rigorous debugging</li>
-        </ul>
-      </div>
-
-      <div class="about-actions">
-        <div class="card contact-card" data-tilt data-tilt-max="12" data-tilt-glare="true" data-tilt-max-glare="0.2">
-          <div class="card-spotlight"></div>
-          <h3>Contact</h3>
-          <p><a href="mailto:saurabhshriwastava323214@gmail.com">saurabhshriwastava323214@gmail.com</a></p>
-          <div class="social-block">
-            <a href="https://github.com/Saurabh2005695" target="_blank" rel="noopener"><i class="fab fa-github"></i>
-              GitHub</a>
-            <a href="https://www.linkedin.com/in/saurabh-shriwastava-b97a26262/" target="_blank" rel="noopener"><i
-                class="fab fa-linkedin"></i> LinkedIn</a>
-            <a href="https://www.instagram.com/saurabhshriwastava?igsh=cXBnaG9hZzVrNjhz" target="_blank"
-              rel="noopener"><i class="fab fa-instagram"></i> Instagram</a>
+          <div class="about-card glass-card">
+            <div class="about-icon">
+              <i class="fa-solid fa-gears"></i>
+            </div>
+            <h3>Core Engineering Mindset</h3>
+            <p>
+              Algorithmic problem-solving, code performance optimization, version control workflows with Git & GitHub, and rigorous debugging disciplines.
+            </p>
           </div>
         </div>
 
-        <div class="card stats-card" data-tilt data-tilt-max="12" data-tilt-glare="true" data-tilt-max-glare="0.2">
-          <div class="card-spotlight"></div>
-          <h3>Quick Snapshot</h3>
-          <div class="stats">
-            <div><span class="stat-num">3+</span><span class="stat-label">Projects</span></div>
-            <div><span class="stat-num">2+</span><span class="stat-label">Internships</span></div>
-            <div><span class="stat-num">DS</span><span class="stat-label">Interest area</span></div>
+        <div class="about-detail-box glass-card">
+          <div class="detail-header">
+            <i class="fa-solid fa-graduation-cap detail-icon"></i>
+            <div>
+              <h3>Academic Background & Philosophy</h3>
+              <p class="text-muted">Computer Science Undergraduate</p>
+            </div>
           </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SKILLS -->
-  <section id="skills" class="skills container">
-    <h2 class="section-title">Skills</h2>
-    <div class="skills-grid">
-      <div class="skill-card card" data-tilt data-tilt-max="14" data-tilt-glare="true" data-tilt-max-glare="0.2">
-        <div class="card-spotlight"></div>
-        <h3>Frontend</h3>
-        <ul class="skill-list">
-          <li>HTML5 & CSS3</li>
-          <li>JavaScript (ES6+)</li>
-          <li>Responsive Web Design (Flexbox, Grid)</li>
-          <li>Basic React.js</li>
-        </ul>
-      </div>
-
-      <div class="skill-card card" data-tilt data-tilt-max="14" data-tilt-glare="true" data-tilt-max-glare="0.2">
-        <div class="card-spotlight"></div>
-        <h3>Backend</h3>
-        <ul class="skill-list">
-          <li>Node.js & Express.js</li>
-          <li>REST API fundamentals</li>
-          <li>Basic database concepts</li>
-        </ul>
-      </div>
-
-      <div class="skill-card card" data-tilt data-tilt-max="14" data-tilt-glare="true" data-tilt-max-glare="0.2">
-        <div class="card-spotlight"></div>
-        <h3>Tools</h3>
-        <ul class="skill-list">
-          <li>Git & GitHub</li>
-          <li>VS Code</li>
-          <li>Netlify / GitHub Pages</li>
-          <li>Figma (UI design)</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- INTERNSHIPS -->
-  <section id="internships" class="internships container">
-    <h2 class="section-title">Internships & Experience</h2>
-    <div class="internships-grid">
-      <article class="internship-card card" data-tilt data-tilt-max="12" data-tilt-glare="true" data-tilt-max-glare="0.2">
-        <div class="card-spotlight"></div>
-        <span class="pill">Internship</span>
-        <h3>Data-Focused Learning Experience</h3>
-        <p>Gained exposure to data analysis, structured problem solving, and practical project workflows while
-          strengthening my analytical mindset.</p>
-        <ul class="internship-points">
-          <li>Worked with data-driven tasks and learning-based projects</li>
-          <li>Improved Python and analytical thinking</li>
-        </ul>
-      </article>
-
-      <article class="internship-card card" data-tilt data-tilt-max="12" data-tilt-glare="true" data-tilt-max-glare="0.2">
-        <div class="card-spotlight"></div>
-        <span class="pill">Internship</span>
-        <h3>Web Development & Product Exposure</h3>
-        <p>Built a stronger understanding of real-world digital products, collaboration, and how technology is applied
-          to solve user problems.</p>
-        <ul class="internship-points">
-          <li>Focused on practical implementation and user experience</li>
-          <li>Strengthened communication and development discipline</li>
-        </ul>
-      </article>
-    </div>
-  </section>
-
-  <!-- PROJECTS -->
-  <section id="projects" class="projects container">
-    <h2 class="section-title">Projects</h2>
-    <div class="projects-grid">
-      <article class="project-card card" data-tilt data-tilt-max="14" data-tilt-glare="true" data-tilt-max-glare="0.25">
-        <div class="card-spotlight"></div>
-        <div class="project-header">
-          <h3>Sarvodaya Drug Store Website</h3>
-          <p>A responsive website developed for a local pharmacy to improve its digital presence and provide customers
-            easy access to store information.</p>
-        </div>
-        <ul class="project-tech">
-          <li>HTML</li>
-          <li>CSS</li>
-          <li>JavaScript</li>
-        </ul>
-        <div class="card-actions project-links">
-          <a href="https://sarvodaya-drug-store.netlify.app/" target="_blank" class="link">Live demo</a>
-          <a href="#" class="link">View code</a>
-        </div>
-      </article>
-
-      <article class="project-card card" data-tilt data-tilt-max="14" data-tilt-glare="true" data-tilt-max-glare="0.25">
-        <div class="card-spotlight"></div>
-        <div class="project-header">
-          <h3>Interactive Language Learning</h3>
-          <p>A web platform to help beginners learn a new language through interactive modules, quizzes, and flashcards.
+          <p class="detail-text">
+            I am a Computer Science undergraduate focused on bridging the gap between intelligent quantitative insights and modern digital experiences. My work centers on architecting clean, intuitive user interfaces while leveraging analytical reasoning to solve complex real-world problems. Rather than viewing software and data analysis in isolation, I thrive at the intersection of computational logic and digital craftsmanship. Driven by curiosity and a commitment to continuous learning, I am constantly exploring modern development frameworks, statistical techniques, and scalable solution architecture to build software products that deliver genuine value.
           </p>
         </div>
-        <ul class="project-tech">
-          <li>HTML</li>
-          <li>CSS</li>
-          <li>JavaScript</li>
-        </ul>
-        <div class="card-actions project-links">
-          <a href="https://cute-elf-a3fbeb.netlify.app/" target="_blank" class="link">Live demo</a>
-          <a href="https://github.com/Saurabh2005695/Salut-A-French-learning-website.git" target="_blank" class="link">View code</a>
-        </div>
-      </article>
-
-      <article class="project-card card" data-tilt data-tilt-max="14" data-tilt-glare="true" data-tilt-max-glare="0.25">
-        <div class="card-spotlight"></div>
-        <div class="project-header">
-          <h3>Personal Portfolio Website</h3>
-          <p>A portfolio website built to showcase projects, skills, and development experience with a clean, responsive
-            layout.</p>
-        </div>
-        <ul class="project-tech">
-          <li>HTML</li>
-          <li>CSS</li>
-          <li>JavaScript</li>
-        </ul>
-        <div class="card-actions project-links">
-          <a href="https://saurabh2005695.github.io/Saurabh_portfolio/" target="_blank" class="link">Live demo</a>
-          <a href="https://github.com/Saurabh2005695/Saurabh_portfolio.git" target="_blank" class="link">View code</a>
-        </div>
-      </article>
-
-      <article class="project-card card" data-tilt data-tilt-max="14" data-tilt-glare="true" data-tilt-max-glare="0.25">
-        <div class="card-spotlight"></div>
-        <div class="project-header">
-          <h3>GitHub Profile Finder</h3>
-          <p>A web app that searches public GitHub profiles using the GitHub API and displays repos, followers, and bio
-            details.</p>
-        </div>
-        <ul class="project-tech">
-          <li>HTML</li>
-          <li>CSS</li>
-          <li>JavaScript</li>
-          <li>GitHub API</li>
-        </ul>
-        <div class="card-actions project-links">
-          <a href="#" class="link">Live demo</a>
-          <a href="#" class="link">View code</a>
-        </div>
-      </article>
-    </div>
-  </section>
-
-  <!-- CONTACT -->
-  <section id="contact" class="contact container">
-    <h2 class="section-title">Get in Touch</h2>
-    <p class="contact-sub">If you'd like to discuss a project, collaboration, or opportunity, feel free to reach out.
-    </p>
-
-    <div class="contact-grid card" data-tilt data-tilt-max="8" data-tilt-speed="400">
-      <div class="card-spotlight"></div>
-      <div class="contact-left">
-        <h4>Email</h4>
-        <p><a href="mailto:saurabhshriwastava323214@gmail.com">saurabhshriwastava323214@gmail.com</a></p>
-        <h4>Social</h4>
-        <p class="social-inline">
-          <a href="https://github.com/Saurabh2005695" target="_blank">GitHub</a> •
-          <a href="https://www.linkedin.com/in/saurabh-shriwastava-b97a26262/" target="_blank">LinkedIn</a> •
-          <a href="https://www.instagram.com/saurabhshriwastava?igsh=cXBnaG9hZzVrNjhz" target="_blank">Instagram</a>
-        </p>
       </div>
+    </section>
 
-      <form class="contact-form" action="mailto:saurabhshriwastava323214@gmail.com" method="get" enctype="text/plain">
-        <label>
-          <input type="text" name="name" placeholder="Your name" required>
-        </label>
-        <label>
-          <input type="email" name="email" placeholder="Your email" required>
-        </label>
-        <label>
-          <textarea name="message" rows="4" placeholder="Message" required></textarea>
-        </label>
-        <div class="form-actions">
-          <button type="submit" class="btn primary">Send</button>
+    <!-- Skills & Expertise Section -->
+    <section id="skills" class="section skills-section">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="section-subtitle">Technical Proficiency</span>
+          <h2 class="section-title">Skills & <span class="gradient-text">Expertise</span></h2>
+          <div class="section-line"></div>
         </div>
-      </form>
-    </div>
-  </section>
 
-  <footer class="site-footer">
-    <div class="container">
-      <p>© 2025 Saurabh Shriwastava — Built with passion</p>
+        <!-- Filter Buttons -->
+        <div class="skills-filter">
+          <button class="filter-btn active" data-filter="all">All Skills</button>
+          <button class="filter-btn" data-filter="web">Frontend & Web</button>
+          <button class="filter-btn" data-filter="prog">Backend & Core</button>
+          <button class="filter-btn" data-filter="data">Tools & Data Science</button>
+        </div>
+
+        <div class="skills-grid">
+          <!-- Skill 1 -->
+          <div class="skill-card glass-card" data-category="web">
+            <div class="skill-info">
+              <div class="skill-header">
+                <i class="fa-brands fa-html5 skill-icon html-color"></i>
+                <span class="skill-name">HTML5 & CSS3</span>
+              </div>
+              <span class="skill-percentage">92%</span>
+            </div>
+            <div class="progress-bg">
+              <div class="progress-fill" style="width: 92%;"></div>
+            </div>
+            <p class="skill-desc">Semantic HTML markup, Flexbox, Grid, Glassmorphism, and responsive web layouts.</p>
+          </div>
+
+          <!-- Skill 2 -->
+          <div class="skill-card glass-card" data-category="web">
+            <div class="skill-info">
+              <div class="skill-header">
+                <i class="fa-brands fa-js skill-icon js-color"></i>
+                <span class="skill-name">JavaScript (ES6+)</span>
+              </div>
+              <span class="skill-percentage">88%</span>
+            </div>
+            <div class="progress-bg">
+              <div class="progress-fill" style="width: 88%;"></div>
+            </div>
+            <p class="skill-desc">Modern ES6+ syntax, Async/Await, DOM Manipulation, Web APIs, and Three.js 3D rendering.</p>
+          </div>
+
+          <!-- Skill 3 -->
+          <div class="skill-card glass-card" data-category="prog">
+            <div class="skill-info">
+              <div class="skill-header">
+                <i class="fa-brands fa-python skill-icon python-color"></i>
+                <span class="skill-name">Python & Data Analytics</span>
+              </div>
+              <span class="skill-percentage">85%</span>
+            </div>
+            <div class="progress-bg">
+              <div class="progress-fill" style="width: 85%;"></div>
+            </div>
+            <p class="skill-desc">Data analysis workflows, statistical reasoning, Pandas, NumPy, and analytical script writing.</p>
+          </div>
+
+          <!-- Skill 4 -->
+          <div class="skill-card glass-card" data-category="prog">
+            <div class="skill-info">
+              <div class="skill-header">
+                <i class="fa-brands fa-node-js skill-icon node-color"></i>
+                <span class="skill-name">Node.js & Express</span>
+              </div>
+              <span class="skill-percentage">80%</span>
+            </div>
+            <div class="progress-bg">
+              <div class="progress-fill" style="width: 80%;"></div>
+            </div>
+            <p class="skill-desc">REST API fundamentals, server-side JavaScript execution, and HTTP route management.</p>
+          </div>
+
+          <!-- Skill 5 -->
+          <div class="skill-card glass-card" data-category="web">
+            <div class="skill-info">
+              <div class="skill-header">
+                <i class="fa-brands fa-react skill-icon react-color"></i>
+                <span class="skill-name">React.js Fundamentals</span>
+              </div>
+              <span class="skill-percentage">75%</span>
+            </div>
+            <div class="progress-bg">
+              <div class="progress-fill" style="width: 75%;"></div>
+            </div>
+            <p class="skill-desc">Component-driven UI development, JSX, props, state management, and modern hooks.</p>
+          </div>
+
+          <!-- Skill 6 -->
+          <div class="skill-card glass-card" data-category="data">
+            <div class="skill-info">
+              <div class="skill-header">
+                <i class="fa-solid fa-cube skill-icon three-color"></i>
+                <span class="skill-name">Three.js & 3D Web Graphics</span>
+              </div>
+              <span class="skill-percentage">82%</span>
+            </div>
+            <div class="progress-bg">
+              <div class="progress-fill" style="width: 82%;"></div>
+            </div>
+            <p class="skill-desc">WebGL particle clouds, 3D celestial sky scenes, camera parallax, and mesh animations.</p>
+          </div>
+
+          <!-- Skill 7 -->
+          <div class="skill-card glass-card" data-category="data">
+            <div class="skill-info">
+              <div class="skill-header">
+                <i class="fa-brands fa-git-alt skill-icon git-color"></i>
+                <span class="skill-name">Git & GitHub</span>
+              </div>
+              <span class="skill-percentage">86%</span>
+            </div>
+            <div class="progress-bg">
+              <div class="progress-fill" style="width: 86%;"></div>
+            </div>
+            <p class="skill-desc">Version control management, repository maintenance, branching, and GitHub Pages deployment.</p>
+          </div>
+
+          <!-- Skill 8 -->
+          <div class="skill-card glass-card" data-category="data">
+            <div class="skill-info">
+              <div class="skill-header">
+                <i class="fa-solid fa-screwdriver-wrench skill-icon tools-color"></i>
+                <span class="skill-name">Tools & Environment</span>
+              </div>
+              <span class="skill-percentage">88%</span>
+            </div>
+            <div class="progress-bg">
+              <div class="progress-fill" style="width: 88%;"></div>
+            </div>
+            <p class="skill-desc">VS Code optimization, Netlify deployments, Figma UI prototyping, and browser DevTools.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="section projects-section">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="section-subtitle">Portfolio Highlights</span>
+          <h2 class="section-title">Featured <span class="gradient-text">Projects</span></h2>
+          <div class="section-line"></div>
+        </div>
+
+        <div class="projects-grid">
+          <!-- Project Card 1 -->
+          <div class="project-card glass-card tilt-card">
+            <div class="project-banner project-banner-1">
+              <div class="banner-overlay">
+                <span class="project-tag">Pharmacy & Healthcare</span>
+              </div>
+              <div class="project-icon-visual">
+                <i class="fa-solid fa-prescription-bottle-medical"></i>
+              </div>
+            </div>
+            <div class="project-content">
+              <h3>Sarvodaya Drug Store Website</h3>
+              <p class="project-description">
+                A responsive website developed for a local pharmacy to improve its digital presence and provide customers easy access to store information, medical products, and contact details.
+              </p>
+              <div class="project-tech-stack">
+                <span>HTML5</span>
+                <span>CSS3</span>
+                <span>JavaScript</span>
+                <span>Responsive Design</span>
+              </div>
+              <div class="project-links">
+                <a href="https://sarvodaya-drug-store.netlify.app/" target="_blank" class="btn btn-sm btn-primary">
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i> Live Demo
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project Card 2 -->
+          <div class="project-card glass-card tilt-card">
+            <div class="project-banner project-banner-2">
+              <div class="banner-overlay">
+                <span class="project-tag">Education & E-Learning</span>
+              </div>
+              <div class="project-icon-visual">
+                <i class="fa-solid fa-language"></i>
+              </div>
+            </div>
+            <div class="project-content">
+              <h3>Salut! — Interactive Language Learning</h3>
+              <p class="project-description">
+                A web platform to help beginners learn French through interactive modules, quizzes, flashcards, and engaging UI components.
+              </p>
+              <div class="project-tech-stack">
+                <span>HTML5</span>
+                <span>CSS3</span>
+                <span>JavaScript</span>
+                <span>Interactive Modules</span>
+              </div>
+              <div class="project-links">
+                <a href="https://github.com/Saurabh2005695/Salut-A-French-learning-website.git" target="_blank" class="btn btn-sm btn-glass">
+                  <i class="fa-brands fa-github"></i> Code Repo
+                </a>
+                <a href="https://cute-elf-a3fbeb.netlify.app/" target="_blank" class="btn btn-sm btn-primary">
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i> Live Demo
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project Card 3 -->
+          <div class="project-card glass-card tilt-card">
+            <div class="project-banner project-banner-3">
+              <div class="banner-overlay">
+                <span class="project-tag">3D WebGraphics & Portfolio</span>
+              </div>
+              <div class="project-icon-visual">
+                <i class="fa-solid fa-cube"></i>
+              </div>
+            </div>
+            <div class="project-content">
+              <h3>Interactive 3D Developer Portfolio</h3>
+              <p class="project-description">
+                Personal developer portfolio built to showcase projects, skills, and development experience with custom Three.js 3D space scene, 3D tilt cards, and glassmorphism styling.
+              </p>
+              <div class="project-tech-stack">
+                <span>HTML5</span>
+                <span>CSS3</span>
+                <span>JavaScript</span>
+                <span>Three.js WebGL</span>
+              </div>
+              <div class="project-links">
+                <a href="https://github.com/Saurabh2005695/Saurabh_portfolio.git" target="_blank" class="btn btn-sm btn-glass">
+                  <i class="fa-brands fa-github"></i> Code Repo
+                </a>
+                <a href="https://saurabh2005695.github.io/Saurabh_portfolio/" target="_blank" class="btn btn-sm btn-primary">
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i> Live Demo
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project Card 4 -->
+          <div class="project-card glass-card tilt-card">
+            <div class="project-banner project-banner-4">
+              <div class="banner-overlay">
+                <span class="project-tag">Web API & Utilities</span>
+              </div>
+              <div class="project-icon-visual">
+                <i class="fa-solid fa-magnifying-glass"></i>
+              </div>
+            </div>
+            <div class="project-content">
+              <h3>GitHub Profile Finder</h3>
+              <p class="project-description">
+                A web app that searches public GitHub profiles using the GitHub REST API and displays repositories, followers, bio details, and user metrics.
+              </p>
+              <div class="project-tech-stack">
+                <span>HTML5 / CSS3</span>
+                <span>JavaScript</span>
+                <span>GitHub REST API</span>
+                <span>Async Fetch</span>
+              </div>
+              <div class="project-links">
+                <a href="https://github.com/Saurabh2005695" target="_blank" class="btn btn-sm btn-glass">
+                  <i class="fa-brands fa-github"></i> Code Repo
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Timeline Journey Section -->
+    <section id="journey" class="section timeline-section">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="section-subtitle">Roadmap & Growth</span>
+          <h2 class="section-title">Experience & <span class="gradient-text">Journey</span></h2>
+          <div class="section-line"></div>
+        </div>
+
+        <div class="timeline-wrapper">
+          <!-- Timeline Item 1 -->
+          <div class="timeline-item left">
+            <div class="timeline-dot"><i class="fa-solid fa-chart-line"></i></div>
+            <div class="timeline-content glass-card">
+              <span class="timeline-date">Internship</span>
+              <h3>Data-Focused Learning Experience</h3>
+              <p class="timeline-institute"><i class="fa-solid fa-brain"></i> Analytical Thinking & Data Analysis</p>
+              <p>
+                Gained exposure to data analysis, structured problem solving, and practical project workflows while strengthening my analytical mindset and Python tooling.
+              </p>
+            </div>
+          </div>
+
+          <!-- Timeline Item 2 -->
+          <div class="timeline-item right">
+            <div class="timeline-dot"><i class="fa-solid fa-code"></i></div>
+            <div class="timeline-content glass-card">
+              <span class="timeline-date">Internship</span>
+              <h3>Web Development & Product Exposure</h3>
+              <p class="timeline-institute"><i class="fa-solid fa-laptop-code"></i> Full-Stack & UI/UX Product Engineering</p>
+              <p>
+                Built a stronger understanding of real-world digital products, web accessibility, collaboration, and applying development discipline to solve user problems.
+              </p>
+            </div>
+          </div>
+
+          <!-- Timeline Item 3 -->
+          <div class="timeline-item left">
+            <div class="timeline-dot"><i class="fa-solid fa-user-graduate"></i></div>
+            <div class="timeline-content glass-card">
+              <span class="timeline-date">Undergraduate Degree</span>
+              <h3>Computer Science Undergraduate Studies</h3>
+              <p class="timeline-institute"><i class="fa-solid fa-building-columns"></i> Core CS & Data Science Focus</p>
+              <p>
+                Focusing on computational logic, software engineering discipline, statistics, data analytics, and building modern web applications.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section contact-section">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="section-subtitle">Get In Touch</span>
+          <h2 class="section-title">Let's Build Something <span class="gradient-text">Extraordinary</span></h2>
+          <div class="section-line"></div>
+        </div>
+
+        <div class="contact-grid">
+          <div class="contact-info-card glass-card">
+            <h3>Contact Information</h3>
+            <p>If you'd like to discuss a project, collaboration, or opportunity, feel free to reach out.</p>
+
+            <div class="info-list">
+              <div class="info-item">
+                <div class="info-icon"><i class="fa-solid fa-envelope"></i></div>
+                <div>
+                  <h4>Email Me</h4>
+                  <a href="mailto:saurabhshriwastava323214@gmail.com">saurabhshriwastava323214@gmail.com</a>
+                </div>
+              </div>
+
+              <div class="info-item">
+                <div class="info-icon"><i class="fa-solid fa-user-graduate"></i></div>
+                <div>
+                  <h4>Academic Standing</h4>
+                  <p>Computer Science Undergraduate</p>
+                </div>
+              </div>
+
+              <div class="info-item">
+                <div class="info-icon"><i class="fa-solid fa-location-dot"></i></div>
+                <div>
+                  <h4>Location</h4>
+                  <p>India</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="social-links-wrapper">
+              <h4>Connect via Socials</h4>
+              <div class="social-links">
+                <a href="mailto:saurabhshriwastava323214@gmail.com" class="social-btn" title="Email"><i
+                    class="fa-solid fa-envelope"></i></a>
+                <a href="https://github.com/Saurabh2005695" target="_blank" class="social-btn" title="GitHub"><i
+                    class="fa-brands fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/saurabh-shriwastava-b97a26262/" target="_blank" class="social-btn"
+                  title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                <a href="https://www.instagram.com/saurabhshriwastava?igsh=cXBnaG9hZzVrNjhz" target="_blank" class="social-btn"
+                  title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="contact-form-card glass-card">
+            <h3>Send a Message</h3>
+            <form id="contact-form" action="mailto:saurabhshriwastava323214@gmail.com" method="get" enctype="text/plain">
+              <div class="form-group">
+                <label for="name">Your Name</label>
+                <input type="text" id="name" name="name" required placeholder="Enter your full name" />
+              </div>
+
+              <div class="form-group">
+                <label for="email">Your Email</label>
+                <input type="email" id="email" name="email" required placeholder="Enter your email address" />
+              </div>
+
+              <div class="form-group">
+                <label for="subject">Subject</label>
+                <input type="text" id="subject" name="subject" required placeholder="Project / Query subject" />
+              </div>
+
+              <div class="form-group">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" rows="4" required placeholder="Write your message here..."></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-block btn-glow">
+                <span>Send Message</span> <i class="fa-solid fa-paper-plane"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-container">
+      <p>© 2025 Saurabh Shriwastava | Designed & Crafted with <i class="fa-solid fa-heart" style="color: #ff007f;"></i> & 3D WebGraphics</p>
+      <a href="#" class="back-to-top" id="back-to-top" title="Back to top">
+        <i class="fa-solid fa-arrow-up"></i>
+      </a>
     </div>
   </footer>
+
+  <script src="script.js"></script>
 </body>
 
 </html>
