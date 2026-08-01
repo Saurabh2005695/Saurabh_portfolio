@@ -234,9 +234,12 @@ body {
 }
 
 @keyframes pulseWelcomeCard {
-  0%, 100% {
+
+  0%,
+  100% {
     border-color: rgba(0, 242, 254, 0.35);
   }
+
   50% {
     border-color: rgba(255, 0, 127, 0.65);
   }
@@ -264,10 +267,13 @@ body {
 }
 
 @keyframes blinkDot {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 1;
     transform: scale(1);
   }
+
   50% {
     opacity: 0.3;
     transform: scale(0.6);
@@ -524,9 +530,12 @@ header.scrolled {
 }
 
 @keyframes blink {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 1;
   }
+
   50% {
     opacity: 0;
   }
@@ -809,14 +818,37 @@ header.scrolled {
   font-size: 1.4rem;
 }
 
-.html-color { color: #e34f26; }
-.js-color { color: #f7df1e; }
-.python-color { color: #3776ab; }
-.node-color { color: #539e43; }
-.react-color { color: #61dafb; }
-.three-color { color: #00f2fe; }
-.git-color { color: #f05032; }
-.tools-color { color: #ff007f; }
+.html-color {
+  color: #e34f26;
+}
+
+.js-color {
+  color: #f7df1e;
+}
+
+.python-color {
+  color: #3776ab;
+}
+
+.node-color {
+  color: #539e43;
+}
+
+.react-color {
+  color: #61dafb;
+}
+
+.three-color {
+  color: #00f2fe;
+}
+
+.git-color {
+  color: #f05032;
+}
+
+.tools-color {
+  color: #ff007f;
+}
 
 .skill-name {
   font-weight: 600;
@@ -874,10 +906,21 @@ header.scrolled {
   overflow: hidden;
 }
 
-.project-banner-1 { background: linear-gradient(135deg, #06b6d4, #3b82f6); }
-.project-banner-2 { background: linear-gradient(135deg, #8b5cf6, #ec4899); }
-.project-banner-3 { background: linear-gradient(135deg, #3b82f6, #8b5cf6); }
-.project-banner-4 { background: linear-gradient(135deg, #10b981, #06b6d4); }
+.project-banner-1 {
+  background: linear-gradient(135deg, #06b6d4, #3b82f6);
+}
+
+.project-banner-2 {
+  background: linear-gradient(135deg, #8b5cf6, #ec4899);
+}
+
+.project-banner-3 {
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+}
+
+.project-banner-4 {
+  background: linear-gradient(135deg, #10b981, #06b6d4);
+}
 
 .banner-overlay {
   position: absolute;
