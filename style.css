@@ -379,6 +379,12 @@ body::after {
   transition: all 0.25s ease;
 }
 
+.nav-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .theme-toggle:hover {
   transform: translateY(-2px);
   border-color: var(--accent1);
@@ -389,12 +395,18 @@ body::after {
   background: transparent;
   border: none;
   color: var(--text);
-  width: 40px;
-  height: 40px;
+  width: 42px;
+  height: 42px;
   cursor: pointer;
-  border-radius: 10px;
+  border-radius: 12px;
   align-items: center;
   justify-content: center;
+  transition: background 0.25s ease;
+  z-index: 101;
+}
+
+.nav-toggle:hover {
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .hamburger,
@@ -406,29 +418,44 @@ body::after {
   height: 2px;
   background: currentColor;
   border-radius: 999px;
-  transition: transform 0.25s, opacity 0.25s;
+  transition: transform 0.3s ease, opacity 0.3s ease, top 0.3s ease;
   position: relative;
 }
 
 .hamburger::before { top: -6px; }
 .hamburger::after { top: 6px; }
 
-@media (max-width: 900px) {
-  .nav-toggle { display: flex; }
-  .nav-links {
-    position: fixed;
-    top: 70px;
-    right: 0;
-    width: 260px;
-    height: calc(100vh - 70px);
-    padding: 24px 20px;
-    flex-direction: column;
-    background: var(--bg);
-    border-left: 1px solid var(--border);
-    transform: translateX(100%);
-    transition: transform 0.3s ease;
-  }
-  .nav-links.open { transform: translateX(0); }
+/* Animated Hamburger Close 'X' State */
+.nav-toggle.nav-open .hamburger {
+  background: transparent;
+}
+
+.nav-toggle.nav-open .hamburger::before {
+  top: 0;
+  transform: rotate(45deg);
+}
+
+.nav-toggle.nav-open .hamburger::after {
+  top: 0;
+  transform: rotate(-45deg);
+}
+
+/* Navigation Drawer Backdrop Overlay */
+.nav-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(3, 5, 17, 0.65);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 98;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+
+.nav-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 /* ==========================================
@@ -1282,21 +1309,36 @@ section {
 /* 4. Extra Small Mobile Phones (Up to 480px) */
 @media (max-width: 480px) {
   .container {
-    width: 95%;
-    padding: 0 4px;
+    width: 94%;
+    padding: 0 6px;
+  }
+
+  .theme-toggle span {
+    display: none;
+  }
+
+  .theme-toggle {
+    padding: 9px 12px;
   }
 
   /* Welcome Screen Mobile Fixes */
+  .welcome-screen {
+    height: 100dvh;
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
   .welcome-content {
     padding: 24px 16px;
+    width: 100%;
   }
 
   .welcome-title {
-    font-size: 1.75rem;
+    font-size: 1.65rem;
   }
 
   .welcome-subtitle {
-    font-size: 0.88rem;
+    font-size: 0.85rem;
     margin-bottom: 20px;
   }
 
@@ -1322,15 +1364,16 @@ section {
   }
 
   .welcome-enter-btn {
-    padding: 12px 24px;
+    padding: 14px 24px;
     font-size: 0.88rem;
     width: 100%;
+    min-height: 46px;
     justify-content: center;
   }
 
   /* Hero Mobile Fixes */
   .hero {
-    padding: 35px 0 25px;
+    padding: 30px 0 20px;
   }
 
   .hero-visual {
@@ -1360,12 +1403,12 @@ section {
   }
 
   .hero-panel {
-    padding: 18px 14px;
-    border-radius: 18px;
+    padding: 20px 16px;
+    border-radius: 20px;
   }
 
   .hero-title {
-    font-size: 1.7rem;
+    font-size: 1.65rem;
     line-height: 1.25;
   }
 
@@ -1393,7 +1436,8 @@ section {
   .btn {
     width: 100%;
     justify-content: center;
-    padding: 12px 16px;
+    padding: 13px 16px;
+    min-height: 46px;
     font-size: 0.9rem;
   }
 
@@ -1413,8 +1457,8 @@ section {
 
   /* Cards & Sections Mobile */
   .card {
-    padding: 18px 14px;
-    border-radius: 16px;
+    padding: 20px 16px;
+    border-radius: 18px;
   }
 
   .skills-grid,
@@ -1432,6 +1476,10 @@ section {
   .project-card .link {
     width: 100%;
     text-align: center;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .stats {
@@ -1448,12 +1496,16 @@ section {
 
   .contact-form input,
   .contact-form textarea {
-    padding: 11px 14px;
+    padding: 12px 14px;
     font-size: 0.9rem;
+    min-height: 44px;
   }
 
   /* Full Screen Mobile Menu */
   .nav-links {
     width: 100vw;
+    height: 100dvh;
+    padding-top: calc(75px + env(safe-area-inset-top));
+    padding-bottom: calc(30px + env(safe-area-inset-bottom));
   }
 }

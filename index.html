@@ -60,15 +60,12 @@
 
   <!-- NAV -->
   <header class="nav-wrap">
+    <div id="nav-overlay" class="nav-overlay" aria-hidden="true"></div>
     <nav class="nav container">
       <div class="brand">
         <span class="brand-mark"></span>
         <span class="brand-name">Saurabh</span>
       </div>
-
-      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
-        <span class="hamburger"></span>
-      </button>
 
       <ul class="nav-links">
         <li><a href="#home">Home</a></li>
@@ -79,11 +76,17 @@
         <li><a href="#contact">Contact</a></li>
       </ul>
 
-      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"
-        title="Switch between dark and light mode">
-        <i class="fas fa-moon"></i>
-        <span>Dark</span>
-      </button>
+      <div class="nav-controls">
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme"
+          title="Switch between dark and light mode">
+          <i class="fas fa-moon"></i>
+          <span>Dark</span>
+        </button>
+
+        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+          <span class="hamburger"></span>
+        </button>
+      </div>
     </nav>
   </header>
 

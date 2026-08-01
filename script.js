@@ -294,19 +294,26 @@ if (document.readyState === 'complete' || document.readyState === 'interactive')
 }
 
 /* ==========================================
-   3. MOUSE SPOTLIGHT SHIMMER TRACKER
+   3. MOUSE & TOUCH SPOTLIGHT SHIMMER TRACKER
    ========================================== */
 document.addEventListener('DOMContentLoaded', () => {
   const cards = document.querySelectorAll('.card, .project-card, .skill-card, .internship-card, .hero-panel');
 
   cards.forEach(card => {
-    card.addEventListener('mousemove', (e) => {
+    const updateSpotlight = (clientX, clientY) => {
       const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
+      const x = clientX - rect.left;
+      const y = clientY - rect.top;
       card.style.setProperty('--mouse-x', `${x}px`);
       card.style.setProperty('--mouse-y', `${y}px`);
-    });
+    };
+
+    card.addEventListener('mousemove', (e) => updateSpotlight(e.clientX, e.clientY));
+    card.addEventListener('touchmove', (e) => {
+      if (e.touches && e.touches[0]) {
+        updateSpotlight(e.touches[0].clientX, e.touches[0].clientY);
+      }
+    }, { passive: true });
   });
 });
 
@@ -314,13 +321,14 @@ document.addEventListener('DOMContentLoaded', () => {
    4. VANILLA TILT 3D CARD PHYSICS
    ========================================== */
 document.addEventListener('DOMContentLoaded', () => {
+  const isMobile = window.innerWidth <= 768 || 'ontouchstart' in window;
   if (typeof VanillaTilt !== 'undefined') {
     VanillaTilt.init(document.querySelectorAll("[data-tilt]"), {
-      max: 12,
+      max: isMobile ? 6 : 12,
       speed: 400,
-      glare: true,
-      "max-glare": 0.25,
-      gyroscope: true
+      glare: !isMobile,
+      "max-glare": 0.2,
+      gyroscope: false
     });
   }
 });
@@ -397,22 +405,32 @@ document.querySelectorAll('.card, .project-card, .skill-card, .internship-card, 
 });
 
 /* ==========================================
-   8. MOBILE NAV TOGGLE & CLICK RIPPLE
+   8. MOBILE NAV TOGGLE & BACKDROP OVERLAY
    ========================================== */
 const navToggle = document.querySelector('.nav-toggle');
 const navLinks = document.querySelector('.nav-links');
+const navOverlay = document.getElementById('nav-overlay');
 
 if (navToggle && navLinks) {
-  navToggle.addEventListener('click', () => {
-    navLinks.classList.toggle('open');
-    navToggle.classList.toggle('nav-open');
-  });
+  function toggleNav() {
+    const isOpen = navLinks.classList.toggle('open');
+    navToggle.classList.toggle('nav-open', isOpen);
+    navToggle.setAttribute('aria-expanded', String(isOpen));
+    if (navOverlay) navOverlay.classList.toggle('active', isOpen);
+  }
+
+  function closeNav() {
+    navLinks.classList.remove('open');
+    navToggle.classList.remove('nav-open');
+    navToggle.setAttribute('aria-expanded', 'false');
+    if (navOverlay) navOverlay.classList.remove('active');
+  }
+
+  navToggle.addEventListener('click', toggleNav);
+  if (navOverlay) navOverlay.addEventListener('click', closeNav);
 
   navLinks.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
-      navLinks.classList.remove('open');
-      navToggle.classList.remove('nav-open');
-    });
+    link.addEventListener('click', closeNav);
   });
 }
 
