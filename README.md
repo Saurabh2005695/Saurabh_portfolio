@@ -1,7 +1,6 @@
 # Saurabh Shriwastava — Interactive 3D Developer Portfolio
 
-[![Live Demo (Netlify)](https://img.shields.io/badge/Live_Demo-Netlify-00C7B7?style=for-the-badge&logo=netlify)](https://superb-mermaid-6dd27c.netlify.app/)
-[![Live Demo (GitHub Pages)](https://img.shields.io/badge/Live_Demo-GitHub_Pages-blueviolet?style=for-the-badge&logo=github)](https://saurabh2005695.github.io/Saurabh_portfolio/)
+[![Live Demo](https://img.shields.io/badge/Live_Demo-saurabh2005695.github.io-blueviolet?style=for-the-badge&logo=github)](https://saurabh2005695.github.io/Saurabh_portfolio/)
 [![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/HTML)
 [![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/CSS)
 [![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
@@ -14,8 +13,7 @@ A state-of-the-art, interactive 3D portfolio website built to showcase projects,
 ## Live Demo
 
 Experience the live application here:  
-**Netlify Deployment**: [https://superb-mermaid-6dd27c.netlify.app/](https://superb-mermaid-6dd27c.netlify.app/)  
-**GitHub Pages**: [https://saurabh2005695.github.io/Saurabh_portfolio/](https://saurabh2005695.github.io/Saurabh_portfolio/)
+**[https://saurabh2005695.github.io/Saurabh_portfolio/](https://saurabh2005695.github.io/Saurabh_portfolio/)**
 
 ---
 
@@ -39,7 +37,7 @@ Experience the live application here:
 | **Core Frontend** | HTML5, CSS3 (Vanilla CSS, Custom Variables, Flexbox, Grid), JavaScript (ES6+) |
 | **3D Graphics & Physics** | Three.js (`r128`), Vanilla-Tilt.js (`1.8.0`) |
 | **Typography & Icons** | Outfit & Inter (Google Fonts), FontAwesome 6.4.0 |
-| **Deployment & Hosting** | Netlify, GitHub Pages |
+| **Deployment & Hosting** | GitHub Pages |
 
 ---
 
@@ -55,7 +53,7 @@ Experience the live application here:
 
 3. **3D Cyber Developer Portfolio**
    - Personal developer portfolio with 3D space animations and interactive glassmorphism UI.
-   - [Live Demo (Netlify)](https://superb-mermaid-6dd27c.netlify.app/) | [Live Demo (GitHub Pages)](https://saurabh2005695.github.io/Saurabh_portfolio/) | [Source Code](https://github.com/Saurabh2005695/Saurabh_portfolio.git)
+   - [Live Demo](https://saurabh2005695.github.io/Saurabh_portfolio/) | [Source Code](https://github.com/Saurabh2005695/Saurabh_portfolio.git)
 
 4. **GitHub Profile Finder**
    - Web app utilizing the GitHub REST API to search profiles, repositories, and user statistics.
